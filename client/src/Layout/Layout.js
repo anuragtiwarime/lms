@@ -5,11 +5,12 @@ import { AiFillCloseCircle } from "react-icons/ai";
 
 const Layout = ({ children }) => {
   // for checking user logged in or not
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [isLoggedin, setIsLoggedin] = useState(true);
 
   // function to log out the user
   const logout = () => {
     console.log("Logout Successfully");
+    setIsLoggedin(false);
   };
 
   const hideDrawer = () => {
