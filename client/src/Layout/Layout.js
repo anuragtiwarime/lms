@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
+import {BsFacebook, BsInstagram, BsTwitter, BsLinkedin} from "react-icons/bs"
 
 const Layout = ({ children }) => {
   // for checking user logged in or not
-  const [isLoggedin, setIsLoggedin] = useState(true);
+  const [isLoggedin, setIsLoggedin] = useState(false);
 
   // function to log out the user
   const logout = () => {
     console.log("Logout Successfully");
-    setIsLoggedin(false);
   };
 
   const hideDrawer = () => {
@@ -96,6 +96,22 @@ const Layout = ({ children }) => {
       </div>
 
       {children}
+
+      {/* adding the footer */}
+      <footer className="relative bottom-0 py-5 flex flex-col sm:flex-row items-center justify-between sm:px-20 text-white bg-gray-800">
+        {/* adding copyright section */}
+        <section className="text-lg">
+          Copyright 2023 | All Rights Reserved
+        </section>
+
+        {/* adding the social media section */}
+        <section className="flex items-center justify-center gap-5 text-2xl text-white">
+          <a className="hover:text-yellow-500 transition-all ease-in-out duration-300" href="#"><BsFacebook /></a>
+          <a className="hover:text-yellow-500 transition-all ease-in-out duration-300" href="#"><BsInstagram /></a>
+          <a className="hover:text-yellow-500 transition-all ease-in-out duration-300" href="#"><BsTwitter /></a>
+          <a className="hover:text-yellow-500 transition-all ease-in-out duration-300" href="#"><BsLinkedin/></a>
+        </section>
+      </footer>
     </>
   );
 };
