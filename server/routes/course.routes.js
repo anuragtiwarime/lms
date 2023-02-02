@@ -7,7 +7,9 @@ import { authorizeRoles, isLoggedIn } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.get("/all", isLoggedIn, authorizeRoles("ADMIN", "USER"), getAllCourses);
-router.post("/create", createCourse);
+// , isLoggedIn, authorizeRoles("ADMIN", "USER") - middlewares
+
+router.get("/", getAllCourses);
+router.post("/", isLoggedIn, authorizeRoles("ADMIN"), createCourse);
 
 export default router;

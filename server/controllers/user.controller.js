@@ -303,6 +303,44 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 /**
+ * @CHANGE_PASSWORD
+ * @ROUTE @POST {{URL}}/api/v1/user/change-password
+ * @ACCESS Private (Logged in users only)
+ */
+export const changePassword = asyncHandler(async (req, res, next) => {
+  // Destructuring the necessary data from the req object
+  const { oldPassword, newPassword } = req.body;
+  const { id } = req.user;
+
+  if (!oldPassword || !newPassword) {
+    return next(new AppErr("Old password and new password are required", 400));
+  }
+
+  const user = await User.findById(id).select("+password");
+
+  if (!user) {
+    return next(new AppErr("Invalid user id or user does not exist", 400));
+  }
+
+  const isPasswordValid = await user.comparePassword(oldPassword);
+
+  if (!isPasswordValid) {
+    return next(new AppErr("Invalid old password", 400));
+  }
+
+  user.password = newPassword;
+
+  await user.save();
+
+  user.password = undefined;
+
+  res.status(200).json({
+    success: true,
+    message: "Password changed successfully",
+  });
+});
+
+/**
  * @UPDATE_USER
  * @ROUTE @POST {{URL}}/api/v1/user/update/:id
  * @ACCESS Private (Logged in user only)
@@ -312,18 +350,14 @@ export const updateUser = asyncHandler(async (req, res, next) => {
   const { fullName } = req.body;
   const { id } = req.params;
 
-  const user = await User.findByIdAndUpdate(
-    id,
-    {
-      fullName,
-    },
-    {
-      new: true,
-    }
-  );
+  const user = await User.findById(id);
 
   if (!user) {
     return next(new AppErr("Invalid user id or user does not exist"));
+  }
+
+  if (fullName) {
+    user.fullName = fullName;
   }
 
   // Run only if user sends a file
@@ -349,15 +383,15 @@ export const updateUser = asyncHandler(async (req, res, next) => {
         // After successful upload remove the file from local storage
         fs.rm(`uploads/${req.file.filename}`);
       }
-
-      // Save the user object
-      await user.save();
     } catch (error) {
       return next(
         new AppErr(error || "File not uploaded, please try again", 400)
       );
     }
   }
+
+  // Save the user object
+  await user.save();
 
   res.status(200).json({
     success: true,
