@@ -1,15 +1,20 @@
 import React from "react";
 import Layout from "../Layout/Layout";
-import homePageMainImage from "../Assets/Images/homePageMainImage.png"
+import homePageMainImage from "../Assets/Images/homePageMainImage.png";
+import HomePageCategory from "../Components/HomePage/HomePageCategory";
 
 const homepage = () => {
+  // popular category array
+  const popularCategory = ["MdOutlineWeb", "MdDeveloperMode", "ImDatabase"];
+
   return (
     <Layout>
       <div className="pt-10 text-white flex items-center justify-center gap-10 mx-16">
         {/* for platform details */}
         <div className="w-1/2 space-y-6">
           <h1 className="text-5xl font-semibold">
-            Find out best <span className="text-yellow-500 font-bold">Online Courses</span>
+            Find out best{" "}
+            <span className="text-yellow-500 font-bold">Online Courses</span>
           </h1>
           <p className="text-xl text-gray-200">
             We have a large library of courses taught by highly skilled and
@@ -18,8 +23,12 @@ const homepage = () => {
 
           {/* for buttons */}
           <div className="space-x-6">
-            <button className="bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">Explore Courses</button>
-            <button className="border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">Contact Us</button>
+            <button className="bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
+              Explore Courses
+            </button>
+            <button className="border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
+              Contact Us
+            </button>
           </div>
         </div>
 
@@ -29,10 +38,19 @@ const homepage = () => {
         </div>
       </div>
 
-      <div className="ml-16">
-        <h1>Most Popular <span className="text-yellow-500 font-bold">Category</span> </h1>
+      {/* creating the most popular courses category */}
+      <div className="ml-16 my-20">
+        <h1 className="text-center text-3xl font-semibold text-white">
+          Most Popular{" "}
+          <span className="text-yellow-500 font-bold">Category</span>{" "}
+        </h1>
 
-        {/* creating the cards */}
+        {/* displaying the popular course cards */}
+        <div className="flex items-center justify-center gap-10 flex-wrap mt-16">
+          {popularCategory.map((element, index) => {
+            return <HomePageCategory iconName={element} key={index} />;
+          })}
+        </div>
       </div>
     </Layout>
   );
