@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../Layout/Layout";
 import homePageMainImage from "../Assets/Images/homePageMainImage.png";
 import HomePageCategory from "../Components/HomePage/HomePageCategory";
+import { Link } from "react-router-dom";
 
 const homepage = () => {
   // popular category array
@@ -26,9 +27,11 @@ const homepage = () => {
             <button className="bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
               Explore Courses
             </button>
-            <button className="border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
-              Contact Us
-            </button>
+            <Link to={"/contact"}>
+              <button className="border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
+                Contact Us
+              </button>
+            </Link>
           </div>
         </div>
 
