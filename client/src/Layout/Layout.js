@@ -96,6 +96,8 @@ const Layout = ({ children }) => {
       </div>
 
       {children}
+
+      <Footer/>
     </div>
   );
 };
