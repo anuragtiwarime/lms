@@ -1,3 +1,7 @@
+import fs from "fs/promises";
+
+import cloudinary from "cloudinary";
+
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import Course from "../models/course.model.js";
 import AppErr from "../utils/appErr.js";
@@ -70,17 +74,82 @@ export const getLecturesByCourseId = asyncHandler(async (req, res, next) => {
   const course = await Course.findById(id);
 
   if (!course) {
-    return next(new AppErr("Course not found", 404));
+    return next(new AppErr("Invalid course id or course not found.", 400));
   }
 
   res.status(200).json({
     success: true,
-    message: "Course fetched successfully",
+    message: "Course lectures fetched successfully",
     lectures: course.lectures,
   });
 });
 
-// Add lectures
+/**
+ * @ADD_LECTURES
+ * @ROUTE @POST {{URL}}/api/v1/courses/:id
+ * @ACCESS Public
+ */
+export const addLecturesToCourseById = asyncHandler(async (req, res, next) => {
+  const { title, description } = req.body;
+  const { id } = req.params;
+
+  let lectureData = {};
+
+  // Array of lectures
+  const lecture = req.file;
+
+  if (!title || !description) {
+    return next(new AppErr("Title and Description are required", 400));
+  }
+
+  lectureData.title = title;
+  lectureData.description = description;
+
+  const course = await Course.findById(id);
+
+  if (!course) {
+    return next(new AppErr("Invalid course id or course not found.", 400));
+  }
+
+  // Run only if user sends a file
+  if (lecture) {
+    try {
+      const result = await cloudinary.v2.uploader.upload(lecture.path, {
+        folder: "lms", // Save files in a folder named lms
+      });
+
+      // If success
+      if (result) {
+        let lecture = {};
+        // Set the public_id and secure_url in array
+        lecture.public_id = result.public_id;
+        lecture.secure_url = result.secure_url;
+
+        lectureData.lecture = lecture;
+      }
+
+      // After successful upload remove the file from local storage
+      fs.rm(`uploads/${lecture.filename}`);
+    } catch (error) {
+      return next(
+        new AppErr(error || "File not uploaded, please try again", 400)
+      );
+    }
+  }
+
+  console.log(lectureData);
+
+  course.lectures.push(lectureData);
+
+  // Save the course object
+  await course.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Course lecture added successfully",
+    course,
+  });
+});
 
 // Remove lectures
 
