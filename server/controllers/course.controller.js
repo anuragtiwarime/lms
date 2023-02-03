@@ -4,12 +4,14 @@ import AppErr from "../utils/appErr.js";
 
 /**
  * @ALL_COURSES
- * @ROUTE @GET {{URL}}/api/v1/course/all
+ * @ROUTE @GET {{URL}}/api/v1/courses
  * @ACCESS Public
  */
 export const getAllCourses = asyncHandler(async (_req, res, next) => {
+  // Find all the courses without lectures
   const courses = await Course.find({}).select("-lectures");
 
+  // If no courses send the same
   if (!courses.length) {
     return next(new AppErr("No course found", 404));
   }
@@ -23,7 +25,7 @@ export const getAllCourses = asyncHandler(async (_req, res, next) => {
 
 /**
  * @CREATE_COURSE
- * @ROUTE @POST {{URL}}/api/v1/course/create
+ * @ROUTE @POST {{URL}}/api/v1/courses
  * @ACCESS Private (admin only)
  */
 export const createCourse = asyncHandler(async (req, res, next) => {
@@ -56,3 +58,32 @@ export const createCourse = asyncHandler(async (req, res, next) => {
     course,
   });
 });
+
+/**
+ * @GET_LECTURES_BY_COURSE_ID
+ * @ROUTE @POST {{URL}}/api/v1/courses/:id
+ * @ACCESS Public
+ */
+export const getLecturesByCourseId = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  const course = await Course.findById(id);
+
+  if (!course) {
+    return next(new AppErr("Course not found", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Course fetched successfully",
+    lectures: course.lectures,
+  });
+});
+
+// Add lectures
+
+// Remove lectures
+
+// Update course
+
+// Delete course
