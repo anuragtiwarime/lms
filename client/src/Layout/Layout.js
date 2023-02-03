@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
-import {BsFacebook, BsInstagram, BsTwitter, BsLinkedin} from "react-icons/bs"
+import Footer from "../Components/Footer";
 
 const Layout = ({ children }) => {
   // for checking user logged in or not
@@ -19,8 +19,8 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <>
-      <div className="drawer absolute left-0 w-fit">
+    <div className="min-h-[90vh]">
+      <div className="drawer absolute z-50 left-0 w-fit">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           <label
@@ -97,22 +97,8 @@ const Layout = ({ children }) => {
 
       {children}
 
-      {/* adding the footer */}
-      <footer className="relative bottom-0 py-5 flex flex-col sm:flex-row items-center justify-between sm:px-20 text-white bg-gray-800">
-        {/* adding copyright section */}
-        <section className="text-lg">
-          Copyright 2023 | All Rights Reserved
-        </section>
-
-        {/* adding the social media section */}
-        <section className="flex items-center justify-center gap-5 text-2xl text-white">
-          <a className="hover:text-yellow-500 transition-all ease-in-out duration-300" href="#"><BsFacebook /></a>
-          <a className="hover:text-yellow-500 transition-all ease-in-out duration-300" href="#"><BsInstagram /></a>
-          <a className="hover:text-yellow-500 transition-all ease-in-out duration-300" href="#"><BsTwitter /></a>
-          <a className="hover:text-yellow-500 transition-all ease-in-out duration-300" href="#"><BsLinkedin/></a>
-        </section>
-      </footer>
-    </>
+      <Footer/>
+    </div>
   );
 };
 
