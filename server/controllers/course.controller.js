@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import path from "path";
 
 import cloudinary from "cloudinary";
 
@@ -95,15 +96,9 @@ export const addLecturesToCourseById = asyncHandler(async (req, res, next) => {
 
   let lectureData = {};
 
-  // Array of lectures
-  const lecture = req.file;
-
   if (!title || !description) {
     return next(new AppErr("Title and Description are required", 400));
   }
-
-  lectureData.title = title;
-  lectureData.description = description;
 
   const course = await Course.findById(id);
 
@@ -112,34 +107,48 @@ export const addLecturesToCourseById = asyncHandler(async (req, res, next) => {
   }
 
   // Run only if user sends a file
-  if (lecture) {
+  if (req.file) {
     try {
-      const result = await cloudinary.v2.uploader.upload(lecture.path, {
+      const result = await cloudinary.v2.uploader.upload(req.file.path, {
         folder: "lms", // Save files in a folder named lms
+        chunk_size: 50000000,
+        resource_type: "video",
       });
+
+      console.log(result);
 
       // If success
       if (result) {
-        let lecture = {};
         // Set the public_id and secure_url in array
-        lecture.public_id = result.public_id;
-        lecture.secure_url = result.secure_url;
-
-        lectureData.lecture = lecture;
+        lectureData.public_id = result.public_id;
+        lectureData.secure_url = result.secure_url;
       }
 
       // After successful upload remove the file from local storage
-      fs.rm(`uploads/${lecture.filename}`);
+      fs.rm(`uploads/${req.file.filename}`);
     } catch (error) {
+      // Empty the uploads directory without deleting the uploads directory
+      for (const file of await fs.readdir("uploads/")) {
+        await fs.unlink(path.join("uploads/", file));
+      }
+
+      // Send the error message
       return next(
-        new AppErr(error || "File not uploaded, please try again", 400)
+        new AppErr(
+          JSON.stringify(error) || "File not uploaded, please try again",
+          400
+        )
       );
     }
   }
 
-  console.log(lectureData);
+  course.lectures.push({
+    title,
+    description,
+    lecture: lectureData,
+  });
 
-  course.lectures.push(lectureData);
+  course.numberOfLectures = course.lectures.length;
 
   // Save the course object
   await course.save();
