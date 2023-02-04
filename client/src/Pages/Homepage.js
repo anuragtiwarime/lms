@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../Layout/Layout";
 import homePageMainImage from "../Assets/Images/homePageMainImage.png";
-import HomePageCategory from "../Components/HomePage/HomePageCategory";
+import HomePageCategory from "../Components/HomePageCategory";
 import { Link } from "react-router-dom";
 
 const homepage = () => {
@@ -24,9 +24,11 @@ const homepage = () => {
 
           {/* for buttons */}
           <div className="space-x-6">
-            <button className="bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
-              Explore Courses
-            </button>
+            <Link to={"/courses"}>
+              <button className="bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
+                Explore Courses
+              </button>
+            </Link>
             <Link to={"/contact"}>
               <button className="border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
                 Contact Us

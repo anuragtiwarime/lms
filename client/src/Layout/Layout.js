@@ -9,17 +9,27 @@ const Layout = ({ children }) => {
   const [isLoggedin, setIsLoggedin] = useState(false);
 
   // function to log out the user
-  const logout = () => {
-    console.log("Logout Successfully");
-  };
+  const logout = () => {};
 
+  // function to hide the drawer on close button click
   const hideDrawer = () => {
     const element = document.getElementsByClassName("drawer-toggle");
     element[0].checked = false;
+
+    // collapsing the drawer-side width to zero
+    const drawerSide = document.getElementsByClassName("drawer-side");
+    drawerSide[0].style.width = 0;
+  };
+
+  // function for changing the drawer width on menu button click
+  const changeWidth = () => {
+    const drawerSide = document.getElementsByClassName("drawer-side");
+    drawerSide[0].style.width = "auto";
   };
 
   return (
     <div className="min-h-[90vh]">
+      {/* adding the daisy ui drawer */}
       <div className="drawer absolute z-50 left-0 w-fit">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
@@ -27,9 +37,14 @@ const Layout = ({ children }) => {
             htmlFor="my-drawer"
             className="cursor-pointer fixed top-2 left-2"
           >
-            <FiMenu size={"32px"} className="font-bold text-white" />
+            <FiMenu
+              onClick={changeWidth}
+              size={"32px"}
+              className="font-bold text-white"
+            />
           </label>
         </div>
+
         <div className="drawer-side">
           <label htmlFor="my-drawer" className="drawer-overlay"></label>
           <ul className="menu p-4 w-48 sm:w-80 bg-base-100 text-base-content relative">
@@ -97,7 +112,8 @@ const Layout = ({ children }) => {
 
       {children}
 
-      <Footer/>
+      {/* adding the footer content */}
+      <Footer />
     </div>
   );
 };
