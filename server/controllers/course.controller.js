@@ -86,11 +86,11 @@ export const getLecturesByCourseId = asyncHandler(async (req, res, next) => {
 });
 
 /**
- * @ADD_LECTURES
+ * @ADD_LECTURE
  * @ROUTE @POST {{URL}}/api/v1/courses/:id
- * @ACCESS Public
+ * @ACCESS Private (Admin Only)
  */
-export const addLecturesToCourseById = asyncHandler(async (req, res, next) => {
+export const addLectureToCourseById = asyncHandler(async (req, res, next) => {
   const { title, description } = req.body;
   const { id } = req.params;
 
@@ -111,11 +111,9 @@ export const addLecturesToCourseById = asyncHandler(async (req, res, next) => {
     try {
       const result = await cloudinary.v2.uploader.upload(req.file.path, {
         folder: "lms", // Save files in a folder named lms
-        chunk_size: 50000000,
+        chunk_size: 50000000, // 50 mb size
         resource_type: "video",
       });
-
-      console.log(result);
 
       // If success
       if (result) {
@@ -160,8 +158,80 @@ export const addLecturesToCourseById = asyncHandler(async (req, res, next) => {
   });
 });
 
-// Remove lectures
+/**
+ * @Remove_LECTURE
+ * @ROUTE @DELETE {{URL}}/api/v1/courses/:id
+ * @ACCESS Private (Admin only)
+ */
+export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
+  // Grabbing the courseId and lectureId from req.query
+  const { courseId, lectureId } = req.query;
+
+  // Checking if both courseId and lectureId are present
+  if (!courseId || !lectureId) {
+    return next(new AppErr("Course ID and Lecture ID are required", 400));
+  }
+
+  // Find the course uding the courseId
+  const course = await Course.findById(courseId);
+
+  // If no course send custom message
+  if (!course) {
+    return next(new AppErr("Invalid ID or Course does not exist.", 400));
+  }
+
+  // Find the index of the lecture using the lectureId
+  const lectureIndex = course.lectures.findIndex(
+    (lecture) => lecture._id.toString() === lectureId.toString()
+  );
+
+  // If returned index is -1 then send error as mentioned below
+  if (lectureIndex === -1) {
+    return next(new AppErr("Invalid ID or lecture does not exist.", 400));
+  }
+
+  // Remove the lecture from the array
+  course.lectures.splice(lectureIndex, 1);
+
+  // update the number of lectures based on lectres array length
+  course.numberOfLectures = course.lectures.length;
+
+  // Save the course object
+  await course.save();
+
+  // Return response
+  res.status(200).json({
+    success: true,
+    message: "Course lecture removed successfully",
+  });
+});
 
 // Update course
+// TODO: Update
 
-// Delete course
+/**
+ * @DELETE_COURSE_BY_ID
+ * @ROUTE @DELETE {{URL}}/api/v1/courses/:id
+ * @ACCESS Private (Admin only)
+ */
+export const deleteCourseById = asyncHandler(async (req, res, next) => {
+  // Extracting id from the request parameters
+  const { id } = req.params;
+
+  // Finding the course via the course ID
+  const course = await Course.findById(id);
+
+  // If course not find send the message as stated below
+  if (!course) {
+    return next(new AppErr("Invalid course id or course not found.", 400));
+  }
+
+  // Remove course
+  await course.remove();
+
+  // Send the message as response
+  res.status(200).json({
+    success: true,
+    message: "Course deleted successfully",
+  });
+});
