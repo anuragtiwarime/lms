@@ -45,7 +45,7 @@ const Layout = ({ children }) => {
           </label>
         </div>
 
-        <div className="drawer-side">
+        <div className="drawer-side w-0">
           <label htmlFor="my-drawer" className="drawer-overlay"></label>
           <ul className="menu p-4 w-48 sm:w-80 bg-base-100 text-base-content relative">
             {/* close button for drawer */}
