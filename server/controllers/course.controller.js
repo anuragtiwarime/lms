@@ -206,8 +206,14 @@ export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
   });
 });
 
-// Update course
-// TODO: Update
+/**
+ * @UPDATE_COURSE_BY_ID
+ * @ROUTE @PUT {{URL}}/api/v1/courses/:id
+ * @ACCESS Private (Admin only)
+ */
+export const updateCourseById = asyncHandler(async (req, res, next) => {
+  // TODO: Update
+});
 
 /**
  * @DELETE_COURSE_BY_ID
