@@ -213,6 +213,30 @@ export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
  */
 export const updateCourseById = asyncHandler(async (req, res, next) => {
   // TODO: Update
+  // Extracting the course id from the request params
+  const { id } = req.params;
+
+  // Finding the course using the course id
+  const course = await Course.findByIdAndUpdate(
+    id,
+    {
+      $set: req.body, // This will only update the fields which are present
+    },
+    {
+      runValidators: true, // This will run the validation checks on the new data
+    }
+  );
+
+  // If no course found then send the response for the same
+  if (!course) {
+    return next(new AppErr("Invalid course id or course not found.", 400));
+  }
+
+  // Sending the response after success
+  res.status(200).json({
+    success: true,
+    message: "Course updated successfully",
+  });
 });
 
 /**

@@ -15,6 +15,7 @@ const router = Router();
 
 // , isLoggedIn, authorizeRoles("ADMIN", "USER") - middlewares
 
+// OLD Code
 // router.get("/", getAllCourses);
 // router.post("/", isLoggedIn, authorizeRoles("ADMIN"), createCourse);
 // router.delete(
@@ -33,6 +34,7 @@ const router = Router();
 // );
 // router.delete("/:id", isLoggedIn, authorizeRoles("ADMIN"), deleteCourseById);
 
+// Refactored code
 router
   .route("/")
   .get(getAllCourses)
@@ -47,7 +49,11 @@ router
     upload.single("lecture"),
     addLectureToCourseById
   )
-  .update(isLoggedIn, authorizeRoles("ADMIN"), updateCourseById)
+  .put(
+    isLoggedIn,
+    //  authorizeRoles("ADMIN"),
+    updateCourseById
+  )
   .delete(isLoggedIn, authorizeRoles("ADMIN"), deleteCourseById);
 
 export default router;
