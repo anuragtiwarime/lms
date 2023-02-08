@@ -190,6 +190,14 @@ export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
     return next(new AppErr("Invalid ID or lecture does not exist.", 400));
   }
 
+  // Delete the lecture from cloudinary
+  await cloudinary.v2.uploader.destroy(
+    course.lectures[lectureIndex].lecture.public_id,
+    {
+      resource_type: "video",
+    }
+  );
+
   // Remove the lecture from the array
   course.lectures.splice(lectureIndex, 1);
 
