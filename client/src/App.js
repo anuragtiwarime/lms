@@ -4,6 +4,7 @@ import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import CourseDescription from "./Pages/CourseDescription";
 import CourseList from "./Pages/CourseList";
+import NotFound from "./Pages/NotFound";
 import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<CourseList />} />
         <Route path="/coursedescription" element={<CourseDescription />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
