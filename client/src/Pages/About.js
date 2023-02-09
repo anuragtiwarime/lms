@@ -10,7 +10,7 @@ import steveJobs from "../Assets/Images/QuotesPersonalityImage/steveJobs.png";
 const About = () => {
   return (
     <Layout>
-      <div className="ml-20 mt-10 flex flex-col text-white">
+      <div className="pl-20 pt-10 flex flex-col text-white">
         {/* creating the about page main section */}
         <div className="flex items-center gap-5 mx-10">
           {/* out moto section */}

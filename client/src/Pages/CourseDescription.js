@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../Layout/Layout";
 
 const CourseDescription = () => {
+  useEffect(() => {
+    // scroll to the top on page render
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <Layout>
       {/* wrapper for course description */}
