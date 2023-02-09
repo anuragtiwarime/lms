@@ -45,10 +45,6 @@ export const createCourse = asyncHandler(async (req, res, next) => {
     description,
     category,
     createdBy,
-    thumbnail: {
-      public_id: "public_id",
-      secure_url: "secure_url",
-    },
   });
 
   if (!course) {
@@ -56,6 +52,41 @@ export const createCourse = asyncHandler(async (req, res, next) => {
       new AppErr("Course could not be created, please try again", 400)
     );
   }
+
+  // Run only if user sends a file
+  if (req.file) {
+    try {
+      const result = await cloudinary.v2.uploader.upload(req.file.path, {
+        folder: "lms", // Save files in a folder named lms
+      });
+
+      // If success
+      if (result) {
+        // Set the public_id and secure_url in array
+        course.thumbnail.public_id = result.public_id;
+        course.thumbnail.secure_url = result.secure_url;
+      }
+
+      // After successful upload remove the file from local storage
+      fs.rm(`uploads/${req.file.filename}`);
+    } catch (error) {
+      // Empty the uploads directory without deleting the uploads directory
+      for (const file of await fs.readdir("uploads/")) {
+        await fs.unlink(path.join("uploads/", file));
+      }
+
+      // Send the error message
+      return next(
+        new AppErr(
+          JSON.stringify(error) || "File not uploaded, please try again",
+          400
+        )
+      );
+    }
+  }
+
+  // Save the changes
+  await course.save();
 
   res.status(201).json({
     success: true,

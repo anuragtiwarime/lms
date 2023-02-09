@@ -38,7 +38,12 @@ const router = Router();
 router
   .route("/")
   .get(getAllCourses)
-  .post(isLoggedIn, authorizeRoles("ADMIN"), createCourse)
+  .post(
+    isLoggedIn,
+    authorizeRoles("ADMIN"),
+    upload.single("thumbnail"),
+    createCourse
+  )
   .delete(isLoggedIn, authorizeRoles("ADMIN"), removeLectureFromCourse);
 router
   .route("/:id")
