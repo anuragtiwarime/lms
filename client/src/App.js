@@ -8,6 +8,7 @@ import NotFound from "./Pages/NotFound";
 import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import Checkout from "./Pages/Payment/Checkout";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<CourseList />} />
         <Route path="/coursedescription" element={<CourseDescription />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
