@@ -9,6 +9,7 @@ import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Checkout from "./Pages/Payment/Checkout";
+import CheckoutSuccess from "./Pages/Payment/CheckoutSuccess";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/courses" element={<CourseList />} />
         <Route path="/coursedescription" element={<CourseDescription />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkoutsuccess" element={<CheckoutSuccess />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
