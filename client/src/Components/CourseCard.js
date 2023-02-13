@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 const CourseCard = () => {
   return (
     <Link to={"/coursedescription"}>
-      <div className="text-white w-80 border rounded-lg shadow-[0_0_10px_white] cursor-pointer transition-all ease-in-out duration-300 hover:scale-[1.04]">
-        <img
-          className="rounded-tl-lg rounded-tr-lg"
-          src="https://static-cse.canva.com/blob/999484/1600w-K9NTgBT1uG8.jpg"
-          alt="course thumbnail"
-        />
+      <div className="text-white w-80 shadow-lg rounded-lg cursor-pointer group overflow-hidden bg-zinc-700">
+        <div className="overflow-hidden">
+          <img
+            className="rounded-tl-lg rounded-tr-lg  group-hover:scale-[1.2]  transition-all ease-in-out duration-300 "
+            src="https://static-cse.canva.com/blob/999484/1600w-K9NTgBT1uG8.jpg"
+            alt="course thumbnail"
+          />
+        </div>
 
         {/* course details */}
         <div className="p-3 space-y-1 text-white">

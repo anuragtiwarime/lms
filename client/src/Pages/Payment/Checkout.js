@@ -12,7 +12,7 @@ const Checkout = () => (
           Subscription Bundle
         </h1>
 
-        <div className="px-4 space-y-5">
+        <div className="px-4 space-y-5 text-center">
           <p className="text-[17px]">
             This purchase will allow you to access all the available courses of
             our platform for{" "}

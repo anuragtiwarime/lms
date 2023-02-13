@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import Layout from "../Layout/Layout";
 
 const CourseDescription = () => {
   useEffect(() => {
     // scroll to the top on page render
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Layout>
@@ -38,9 +39,11 @@ const CourseDescription = () => {
               </div>
 
               {/* adding the subscribe button */}
-              <button className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300">
-                Subscribe to Course
-              </button>
+              <Link to={"/checkout"}>
+                <button className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300">
+                  Subscribe to Course
+                </button>
+              </Link>
             </div>
           </div>
 
