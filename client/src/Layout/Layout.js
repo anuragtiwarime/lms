@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
             <FiMenu
               onClick={changeWidth}
               size={"32px"}
-              className="font-bold text-white"
+              className="font-bold text-white m-4"
             />
           </label>
         </div>

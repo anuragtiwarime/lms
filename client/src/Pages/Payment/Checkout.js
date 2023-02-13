@@ -7,7 +7,7 @@ const Checkout = () => (
     {/* checkout page container */}
     <div className="min-h-[90vh] flex items-center justify-center text-white">
       {/* checkout card */}
-      <div className="w-80 h-[26rem] flex flex-col justify-center shadow-[0_0_10px_white] rounded-lg relative">
+      <div className="w-80 h-[26rem] flex flex-col justify-center shadow-[0_0_10px_black] rounded-lg relative">
         <h1 className="bg-yellow-500 absolute top-0 w-full text-center py-4 text-2xl font-bold rounded-tl-lg rounded-tr-lg">
           Subscription Bundle
         </h1>

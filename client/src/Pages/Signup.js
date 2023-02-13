@@ -10,10 +10,7 @@ const Signup = () => {
   return (
     <Layout>
       <div className="flex items-center justify-center h-[100vh]">
-        <form
-          className="flex flex-col justify-center gap-4 rounded-sm p-4 text-white w-80 h-[26rem]"
-          style={{ boxShadow: "1px 1px 3px 3px white" }}
-        >
+        <form className="flex flex-col justify-center gap-4 rounded-lg p-4 text-white w-80 h-[26rem] shadow-[0_0_10px_black]">
           <h1 className="text-center text-2xl font-bold">Registration Page</h1>
 
           {/* input for name */}
@@ -69,7 +66,7 @@ const Signup = () => {
 
           {/* registration button */}
           <button
-            className="w-full btn-primary py-2 font-semibold text-lg cursor-pointer"
+            className="w-full bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"
             type="submit"
           >
             Create Account

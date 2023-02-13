@@ -16,7 +16,9 @@ const CheckoutSuccess = () => {
 
           <div className="px-4 flex flex-col items-center justify-center space-y-2">
             <p className="text-center">
-              Congrats to the pro bundle <br />
+              <h2 className="text-lg font-semibold">
+                Welcome to the Pro Bundle
+              </h2>
               Now you can enjoy the taste of learning from our vast library of
               courses from the top subject matter experts of the industry
             </p>

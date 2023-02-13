@@ -11,6 +11,8 @@ import Signup from "./Pages/Signup";
 import Checkout from "./Pages/Payment/Checkout";
 import CheckoutSuccess from "./Pages/Payment/CheckoutSuccess";
 import CheckoutFail from "./Pages/Payment/CheckoutFail";
+import ForgetPassword from "./Pages/Password/ForgetPassword";
+import ResetPassword from "./Pages/Password/ResetPassword";
 
 const App = () => {
   return (
@@ -26,6 +28,8 @@ const App = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/checkoutsuccess" element={<CheckoutSuccess />} />
         <Route path="/checkoutfail" element={<CheckoutFail />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
