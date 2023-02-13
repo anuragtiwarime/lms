@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
       <div className="drawer absolute z-50 left-0 w-fit">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
-          <label htmlFor="my-drawer" className="cursor-pointer top-2 left-2">
+          <label htmlFor="my-drawer" className="cursor-pointer relative">
             <FiMenu
               onClick={changeWidth}
               size={"32px"}
