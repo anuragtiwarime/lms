@@ -32,7 +32,7 @@ const About = () => {
             <img
               id="test1"
               style={{
-                filter: "drop-shadow(0px 10px 10px rgb(170, 170, 170))",
+                filter: "drop-shadow(0px 10px 10px rgb(0, 0, 0))",
               }}
               className="drop-shadow-2xl "
               src={aboutMainImage}

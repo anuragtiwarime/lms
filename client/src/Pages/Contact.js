@@ -5,7 +5,7 @@ const Contact = () => {
   return (
     <Layout>
       <div className="flex items-center justify-center h-[100vh]">
-        <form className="border flex flex-col items-center justify-center gap-5 p-5 rounded-md text-white shadow-[0_0_10px_white] w-[22rem]">
+        <form className="flex flex-col items-center justify-center gap-5 p-5 rounded-md text-white shadow-[0_0_10px_black] w-[22rem]">
           <h1 className="text-3xl font-semibold">
             Contact Form
           </h1>
