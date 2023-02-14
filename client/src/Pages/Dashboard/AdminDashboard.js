@@ -15,6 +15,8 @@ import { Pie, Bar } from "react-chartjs-2";
 import { FaUsers } from "react-icons/fa";
 import { GiMoneyStack } from "react-icons/gi";
 import { FcSalesPerformance } from "react-icons/fc";
+import { BsTrash } from "react-icons/bs";
+import { MdOutlineModeEdit } from "react-icons/md";
 
 ChartJS.register(
   ArcElement,
@@ -74,8 +76,8 @@ const AdminDashboard = () => {
           Admin Dashboard
         </h1>
 
-        {/* creating the records card for sale and user */}
-        <div className="grid grid-cols-2 gap-5 m-auto pb-10">
+        {/* creating the records card and chart for sales and user details */}
+        <div className="grid grid-cols-2 gap-5 m-auto mx-10">
           {/* displaying the users chart and data */}
           <div className="flex flex-col items-center gap-10 p-5 shadow-lg rounded-md">
             {/* for displaying the pie chart */}
@@ -133,6 +135,64 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* CRUD courses section */}
+        <div className="mx-[10%] w-[80%] self-center flex flex-col items-center justify-center gap-10 mb-10">
+          <div className="flex w-full items-center justify-between">
+            <h1 className="text-center text-3xl font-semibold">
+              Courses Overview
+            </h1>
+
+            {/* add course card */}
+            <button className="w-fit bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded py-2 px-4 font-semibold text-lg cursor-pointer">
+              Create New Course
+            </button>
+          </div>
+
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>S No.</th>
+                <th>Course Name</th>
+                <th>Course Category</th>
+                <th>Instructor</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>01</td>
+                <td>HTML5</td>
+                <td>Web Development</td>
+                <td>Vinay</td>
+                <td className="flex items-center gap-4">
+                  <button className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold">
+                    <MdOutlineModeEdit />
+                  </button>
+                  <button className="bg-red-500 hover:bg-red-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold">
+                    <BsTrash />
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>01</td>
+                <td>HTML5</td>
+                <td>Web Development</td>
+                <td>Vinay</td>
+                <td className="flex items-center gap-4">
+                  <button className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold">
+                    <MdOutlineModeEdit />
+                  </button>
+                  <button className="bg-red-500 hover:bg-red-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold">
+                    <BsTrash />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </Layout>
