@@ -2,8 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
-import CourseDescription from "./Pages/CourseDescription";
-import CourseList from "./Pages/CourseList";
+import CourseList from "./Pages/Course/CourseList";
 import NotFound from "./Pages/NotFound";
 import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
@@ -14,6 +13,7 @@ import CheckoutFail from "./Pages/Payment/CheckoutFail";
 import ForgetPassword from "./Pages/Password/ForgetPassword";
 import ResetPassword from "./Pages/Password/ResetPassword";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
+import CourseDescription from "./Pages/Course/CourseDescription";
 
 const App = () => {
   return (
@@ -25,13 +25,13 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<CourseList />} />
-        <Route path="/coursedescription" element={<CourseDescription />} />
+        <Route path="/course/description" element={<CourseDescription />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/checkoutsuccess" element={<CheckoutSuccess />} />
-        <Route path="/checkoutfail" element={<CheckoutFail />} />
+        <Route path="/checkout/success" element={<CheckoutSuccess />} />
+        <Route path="/checkout/fail" element={<CheckoutFail />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
-        <Route path="/admindashboard" element={<AdminDashboard />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

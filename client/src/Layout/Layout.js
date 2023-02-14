@@ -6,7 +6,7 @@ import Footer from "../Components/Footer";
 
 const Layout = ({ children }) => {
   // for checking user logged in or not
-  const [isLoggedin, setIsLoggedin] = useState(true);
+  const [isLoggedin, setIsLoggedin] = useState(false);
 
   // function to log out the user
   const logout = () => {};
