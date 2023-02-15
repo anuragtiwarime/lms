@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Layout from "../Layout/Layout";
+import Layout from "../../Layout/Layout";
 
 const CourseDescription = () => {
   useEffect(() => {

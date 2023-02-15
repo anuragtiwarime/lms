@@ -1,6 +1,6 @@
 import React from "react";
-import CourseCard from "../Components/CourseCard";
-import Layout from "../Layout/Layout";
+import CourseCard from "../../Components/CourseCard";
+import Layout from "../../Layout/Layout";
 
 const Courses = () => {
   return (
