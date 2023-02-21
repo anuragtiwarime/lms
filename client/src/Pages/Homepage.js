@@ -5,7 +5,7 @@ import HomePageCategory from "../Components/HomePageCategory";
 import { Link } from "react-router-dom";
 
 const homepage = () => {
-  // popular category array
+  // popular category arrayHome
   const popularCategory = ["MdOutlineWeb", "MdDeveloperMode", "ImDatabase"];
 
   return (

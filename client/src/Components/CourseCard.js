@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CourseCard = () => {
   return (
-    <Link to={"/coursedescription"}>
+    <Link to={"/course/description"}>
       <div className="text-white w-80 shadow-lg rounded-lg cursor-pointer group overflow-hidden bg-zinc-700">
         <div className="overflow-hidden">
           <img
