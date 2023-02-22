@@ -1,22 +1,22 @@
-import { model, Schema } from "mongoose";
+import { model, Schema } from 'mongoose';
 
 const userSchema = new Schema(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
-      minlength: [8, "Title must be atleast 8 characters"],
-      maxlength: [50, "Title cannot be more than 50 characters"],
+      required: [true, 'Title is required'],
+      minlength: [8, 'Title must be atleast 8 characters'],
+      maxlength: [50, 'Title cannot be more than 50 characters'],
       trim: true,
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
-      minlength: [20, "Description must be atleast 20 characters long"],
+      required: [true, 'Description is required'],
+      minlength: [20, 'Description must be atleast 20 characters long'],
     },
     category: {
       type: String,
-      required: [true, "Category is required"],
+      required: [true, 'Category is required'],
     },
     lectures: [
       {
@@ -37,11 +37,9 @@ const userSchema = new Schema(
     thumbnail: {
       public_id: {
         type: String,
-        required: true,
       },
       secure_url: {
         type: String,
-        required: true,
       },
     },
     numberOfLectures: {
@@ -50,7 +48,7 @@ const userSchema = new Schema(
     },
     createdBy: {
       type: String,
-      required: [true, "Course instructor name is required"],
+      required: [true, 'Course instructor name is required'],
     },
   },
   {
@@ -58,6 +56,6 @@ const userSchema = new Schema(
   }
 );
 
-const Course = model("Course", userSchema);
+const Course = model('Course', userSchema);
 
 export default Course;

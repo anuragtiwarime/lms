@@ -33,7 +33,7 @@ app.use('/api/v1/payments', paymentRoutes);
 
 // Default catch all route - 404
 app.all('*', (_req, res) => {
-  res.send('OOPS!!! 404 Page Not Found');
+  res.status(404).send('OOPS!!! 404 Page Not Found');
 });
 
 // Custom error handling middleware
