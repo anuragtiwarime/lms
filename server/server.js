@@ -11,14 +11,14 @@ v2.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const PORT = process.env.PORT || 5000;
-
-// Razorpay config
-
+// Razorpay configuration
 export const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_SECRET,
 });
+
+const PORT = process.env.PORT || 5000;
+
 
 app.listen(PORT, async () => {
   // Connect to DB

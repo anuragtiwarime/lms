@@ -93,7 +93,11 @@ const Signup = () => {
     try {
       const res = await axiosInstance.post("/user/register", formData);
 
-      toast.success("Account created successfully");
+      toast.promise(res, {
+        loading: "Wait! Creating your account",
+        success: res.data.message,
+        error: "Failed to create account",
+      });
       console.log(res);
     } catch (error) {
       toast.error(error.message);
