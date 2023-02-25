@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import { BsPersonCircle } from "react-icons/bs";
 import { toast } from "react-hot-toast";
-import axiosInstance from "../Helper/axiosInstance";
+import { useDispatch } from "react-redux";
+import { createAccount } from "../Redux/authSlice";
 
 const Signup = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [previewImage, setImagePreview] = useState("");
@@ -48,7 +50,7 @@ const Signup = () => {
   };
 
   // function to create account
-  const createAccount = async (event) => {
+  const createNewAccount = async (event) => {
     event.preventDefault();
 
     // checking the empty fields
@@ -90,31 +92,27 @@ const Signup = () => {
     formData.append("password", signupData.password);
     formData.append("avatar", signupData.avatar);
 
-    // api call to create the account
-    try {
-      let res = axiosInstance.post("/user/register", formData);
+    // calling create account action
+    const res = await dispatch(createAccount(formData));
 
-      toast.promise(res, {
-        loading: "Wait! Creating your account",
-        success: (data) => {
-          navigate("/login");
-          return data?.data.message;
-        },
-        error: "Failed to create account",
-      });
+    // redirect to login page if true
+    if (res.payload.success) navigate("/login");
 
-      // getting response resolved here
-      res = await res;
-    } catch (error) {
-      toast.error(error.message);
-    }
+    // clearing the signup inputs
+    setSignupData({
+      fullName: "",
+      email: "",
+      password: "",
+      avatar: "",
+    });
+    setImagePreview("");
   };
 
   return (
     <Layout>
       <div className="flex items-center justify-center h-[100vh]">
         <form
-          onSubmit={createAccount}
+          onSubmit={createNewAccount}
           className="flex flex-col justify-center gap-3 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]"
         >
           <h1 className="text-center text-2xl font-bold">Registration Page</h1>

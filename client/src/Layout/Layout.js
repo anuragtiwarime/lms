@@ -3,13 +3,16 @@ import { FiMenu } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Footer from "../Components/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../Redux/authSlice";
 
 const Layout = ({ children }) => {
-  // for checking user logged in or not
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  const dispatch = useDispatch();
 
-  // function to log out the user
-  const logout = () => {};
+  // for checking user logged in or not
+  const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
+
+  const role = useSelector((state) => state?.auth?.role);
 
   // function to hide the drawer on close button click
   const hideDrawer = () => {
@@ -57,9 +60,15 @@ const Layout = ({ children }) => {
             </li>
 
             {/* displaying dashboard, if user is logged in */}
-            {isLoggedin && (
+            {isLoggedIn && role === "ADMIN" && (
               <li>
-                <Link to={"/dashboard"}>Dashboard</Link>
+                <Link to={"/admin/dashboard"}>Admin Dashboard</Link>
+              </li>
+            )}
+
+            {isLoggedIn && role === "USER" && (
+              <li>
+                <Link to={"/user/dashboard"}>Dashboard</Link>
               </li>
             )}
 
@@ -77,7 +86,7 @@ const Layout = ({ children }) => {
 
             {/* creating the bottom part of drawer */}
             {/* if user is not logged in */}
-            {!isLoggedin && (
+            {!isLoggedIn && (
               <li className="absolute bottom-4 w-[90%]">
                 <div className="w-full flex items-center justify-center">
                   <button className="btn-primary px-4 py-1 font-semibold rounded-md w-full">
@@ -91,14 +100,14 @@ const Layout = ({ children }) => {
             )}
 
             {/* if user is logged in */}
-            {isLoggedin && (
+            {isLoggedIn && (
               <li className="absolute bottom-4 w-[90%]">
                 <div className="w-full flex items-center justify-center">
                   <button className="btn-primary px-4 py-1 font-semibold rounded-md w-full">
                     <Link to={"/profile"}>Profile</Link>
                   </button>
                   <button className="btn-secondary px-4 py-1 font-semibold rounded-md w-full">
-                    <Link onClick={logout}>Logout</Link>
+                    <Link onClick={() => dispatch(logout())}>Logout</Link>
                   </button>
                 </div>
               </li>

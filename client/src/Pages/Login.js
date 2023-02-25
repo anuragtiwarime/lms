@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../Helper/axiosInstance";
 import Layout from "../Layout/Layout";
+import { login } from "../Redux/authSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -22,7 +24,7 @@ const Login = () => {
   };
 
   // function to login
-  const login = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
 
     // checking the empty fields
@@ -31,30 +33,24 @@ const Login = () => {
       return;
     }
 
-    try {
-      let res = axiosInstance.post("/user/login", loginData);
+    // calling login action
+    const res = await dispatch(login(loginData));
 
-      await toast.promise(res, {
-        loading: "Loading...",
-        success: (data) => {
-          navigate("/");
-          return data?.data.message;
-        },
-        error: "Failed to log in",
-      });
+    // redirect to login page if true
+    if (res.payload.success) navigate("/");
 
-      // getting response resolved here
-      res = await res;
-    } catch (error) {
-      toast.error(error.message);
-    }
+    // clearing the login inputs
+    setLoginData({
+      email: "",
+      password: "",
+    });
   };
 
   return (
     <Layout>
       <div className="flex items-center justify-center h-[100vh]">
         <form
-          onSubmit={login}
+          onSubmit={handleLogin}
           className="flex flex-col justify-center gap-4 rounded-lg p-4 text-white w-80 h-[26rem] shadow-[0_0_10px_black]"
         >
           <h1 className="text-center text-2xl font-bold">Login Page</h1>
