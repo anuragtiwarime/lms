@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import { BsPersonCircle } from "react-icons/bs";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 import axiosInstance from "../Helper/axiosInstance";
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [previewImage, setImagePreview] = useState("");
 
   // for user input
@@ -91,17 +92,21 @@ const Signup = () => {
 
     // api call to create the account
     try {
-      const res = await axiosInstance.post("/user/register", formData);
+      let res = axiosInstance.post("/user/register", formData);
 
       toast.promise(res, {
         loading: "Wait! Creating your account",
-        success: res.data.message,
+        success: (data) => {
+          navigate("/login");
+          return data?.data.message;
+        },
         error: "Failed to create account",
       });
-      console.log(res);
+
+      // getting response resolved here
+      res = await res;
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
     }
   };
 

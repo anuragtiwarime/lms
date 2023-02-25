@@ -1,15 +1,62 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../Helper/axiosInstance";
 import Layout from "../Layout/Layout";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // function to handle the user input
+  const handleUserInput = (event) => {
+    const { name, value } = event.target;
+    setLoginData({
+      ...loginData,
+      [name]: value,
+    });
+  };
+
+  // function to login
+  const login = async (event) => {
+    event.preventDefault();
+
+    // checking the empty fields
+    if (!loginData.email || !loginData.password) {
+      toast.error("Please fill all the fields");
+      return;
+    }
+
+    try {
+      let res = axiosInstance.post("/user/login", loginData);
+
+      await toast.promise(res, {
+        loading: "Loading...",
+        success: (data) => {
+          navigate("/");
+          return data?.data.message;
+        },
+        error: "Failed to log in",
+      });
+
+      // getting response resolved here
+      res = await res;
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <Layout>
       <div className="flex items-center justify-center h-[100vh]">
-        <form className="flex flex-col justify-center gap-4 rounded-lg p-4 text-white w-80 h-[26rem] shadow-[0_0_10px_black]">
+        <form
+          onSubmit={login}
+          className="flex flex-col justify-center gap-4 rounded-lg p-4 text-white w-80 h-[26rem] shadow-[0_0_10px_black]"
+        >
           <h1 className="text-center text-2xl font-bold">Login Page</h1>
           <div className="flex flex-col gap-1">
             <label className="text-lg font-semibold" htmlFor="email">
@@ -22,8 +69,8 @@ const Login = () => {
               id="email"
               placeholder="Enter your email"
               className="bg-transparent px-2 py-1 border"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              value={loginData.email}
+              onChange={handleUserInput}
             />
           </div>
 
@@ -38,9 +85,19 @@ const Login = () => {
               id="password"
               placeholder="Enter your password"
               className="bg-transparent px-2 py-1 border"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              value={loginData.password}
+              onChange={handleUserInput}
             />
+          </div>
+
+          {/* guest account access */}
+          <div
+            onClick={() =>
+              setLoginData({ email: "test@gmail.com", password: "Test@123" })
+            }
+            className="text-center link text-accent cursor-pointer"
+          >
+            Guest Login
           </div>
 
           <button

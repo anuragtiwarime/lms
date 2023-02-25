@@ -37,13 +37,8 @@ app.use("/api/v1/courses", courseRoutes);
 app.use("/api/v1/payments", paymentRoutes);
 
 // Default catch all route - 404
-<<<<<<< HEAD
 app.all("*", (_req, res) => {
-  res.send("OOPS!!! 404 Page Not Found");
-=======
-app.all('*', (_req, res) => {
-  res.status(404).send('OOPS!!! 404 Page Not Found');
->>>>>>> d633b4d5ee50ba336ee8cbb135ed4ae13d65ebbe
+  res.status(404).send("OOPS!!! 404 Page Not Found");
 });
 
 // Custom error handling middleware
