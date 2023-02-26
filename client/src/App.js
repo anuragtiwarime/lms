@@ -14,7 +14,7 @@ import ForgetPassword from "./Pages/Password/ForgetPassword";
 import ResetPassword from "./Pages/Password/ResetPassword";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
 import CourseDescription from "./Pages/Course/CourseDescription";
-
+import Profile from "./Pages/User/Profile";
 
 const App = () => {
   return (
@@ -33,6 +33,7 @@ const App = () => {
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/user/profile" element={<Profile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
