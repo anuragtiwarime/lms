@@ -78,6 +78,7 @@ const Signup = () => {
       return;
     }
 
+    // password validation using regex
     if (!signupData.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)) {
       toast.error(
         "Minimum password length should be 6 with Uppercase, Lowercase, Number and Symbol"

@@ -15,6 +15,7 @@ import ResetPassword from "./Pages/Password/ResetPassword";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
 import CourseDescription from "./Pages/Course/CourseDescription";
 import Profile from "./Pages/User/Profile";
+import ChangePassword from "./Pages/Password/ChangePassword";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/checkout/fail" element={<CheckoutFail />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/user/profile" element={<Profile />} />
         <Route path="*" element={<NotFound />} />

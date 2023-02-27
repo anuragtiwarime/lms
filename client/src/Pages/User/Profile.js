@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import { getUserData } from "../../Redux/authSlice";
 
@@ -37,9 +38,12 @@ const Profile = () => {
 
           {/* button to change the password */}
           <div className="flex items-center justify-between gap-5">
-            <button className="w-1/2 bg-yellow-600 hover:bg-yellow-700 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold cursor-pointer">
-              Change Password
-            </button>
+            <Link
+              to={"/changepassword"}
+              className="w-1/2 bg-yellow-600 hover:bg-yellow-700 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold cursor-pointer text-center"
+            >
+              <button>Change Password</button>
+            </Link>
             <button className="w-1/2 border border-yellow-600 hover:border-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold cursor-pointer">
               Edit Profile
             </button>
