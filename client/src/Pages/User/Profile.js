@@ -7,7 +7,7 @@ import { getUserData } from "../../Redux/authSlice";
 const Profile = () => {
   const dispatch = useDispatch();
 
-  const userData = useSelector((state) => state.auth.data);
+  const userData = useSelector((state) => state?.auth?.data);
 
   useEffect(() => {
     // getting user details
@@ -19,7 +19,7 @@ const Profile = () => {
         <div className="my-10 flex flex-col gap-4 rounded-lg p-4 text-white w-80 shadow-[0_0_10px_black]">
           <img
             className="w-40 m-auto rounded-full border border-black"
-            src={userData.avatar.secure_url}
+            src={userData?.avatar?.secure_url}
             alt="user profile image"
           />
 
@@ -29,11 +29,11 @@ const Profile = () => {
 
           <div className="grid grid-cols-2">
             <p>Email :</p>
-            <p>{userData.email}</p>
+            <p>{userData?.email}</p>
             <p>Role :</p>
-            <p>{userData.role}</p>
+            <p>{userData?.role}</p>
             <p>Total Courses :</p>
-            <p>{userData.courses.length}</p>
+            <p>{userData?.courses?.length}</p>
           </div>
 
           {/* button to change the password */}

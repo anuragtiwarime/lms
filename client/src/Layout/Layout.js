@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FiMenu } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Footer from "../Components/Footer";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { logout } from "../Redux/authSlice";
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // for checking user logged in or not
   const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
@@ -29,6 +30,17 @@ const Layout = ({ children }) => {
   const changeWidth = () => {
     const drawerSide = document.getElementsByClassName("drawer-side");
     drawerSide[0].style.width = "auto";
+  };
+
+  // function to handle logout
+  const handleLogout = async (event) => {
+    event.preventDefault();
+
+    // calling login action
+    const res = await dispatch(logout());
+
+    // redirect to home page if true
+    if (res?.payload?.success) navigate("/");
   };
 
   return (
@@ -108,7 +120,7 @@ const Layout = ({ children }) => {
                     <Link to={"/user/profile"}>Profile</Link>
                   </button>
                   <button className="btn-secondary px-4 py-1 font-semibold rounded-md w-full">
-                    <Link onClick={() => dispatch(logout())}>Logout</Link>
+                    <Link onClick={handleLogout}>Logout</Link>
                   </button>
                 </div>
               </li>

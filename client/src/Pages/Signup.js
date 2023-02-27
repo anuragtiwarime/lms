@@ -79,16 +79,18 @@ const Signup = () => {
     }
 
     // password validation using regex
-    if (!signupData.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)) {
+    if (!signupData.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/)) {
       toast.error(
-        "Minimum password length should be 6 with Uppercase, Lowercase, Number and Symbol"
+        "Minimum password length should be 8 with Uppercase, Lowercase, Number and Symbol"
       );
       return;
     }
 
+    console.log(signupData);
+
     // creating the form data from the existing data
     const formData = new FormData();
-    formData.append("fullName", signupData.name);
+    formData.append("fullName", signupData.fullName);
     formData.append("email", signupData.email);
     formData.append("password", signupData.password);
     formData.append("avatar", signupData.avatar);
@@ -151,7 +153,7 @@ const Signup = () => {
               id="fullName"
               placeholder="Enter your name"
               className="bg-transparent px-2 py-1 border"
-              value={signupData.name}
+              value={signupData.fullName}
               onChange={handleUserInput}
             />
           </div>
