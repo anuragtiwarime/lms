@@ -57,7 +57,6 @@ export const verifySubscription = asyncHandler(async (req, res, next) => {
 
   if (generatedSignature !== razorpay_signature) {
     return res.redirect(process.env.FRONTEND_URL + '/payment-failed');
-    // return next(new AppErr('Payment not successful', 400));
   }
 
   await Payment.create({
@@ -70,5 +69,15 @@ export const verifySubscription = asyncHandler(async (req, res, next) => {
 
   await user.save();
 
-  res.redirect(process.env.FRONTEND_URL + '/payment-success');
+  res.redirect(
+    process.env.FRONTEND_URL + '/payment-success?ref=' + razorpay_payment_id
+  );
+});
+
+export const getRazorpayApiKey = asyncHandler(async (_req, res, _next) => {
+  res.status(200).json({
+    success: true,
+    message: 'Razorpay API key',
+    key: process.env.RAZORPAY_KEY_ID,
+  });
 });
