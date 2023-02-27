@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { toast } from "react-hot-toast";
@@ -8,6 +8,7 @@ import { changePassword } from "../../Redux/authSlice";
 
 const ChangePassword = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [userPassword, setUserPassword] = useState({
     oldPassword: "",
@@ -24,7 +25,7 @@ const ChangePassword = () => {
   };
 
   // function to handle form submit
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     // checking the fields are empty or not
@@ -44,13 +45,16 @@ const ChangePassword = () => {
     }
 
     // calling the api from auth slice
-    dispatch(changePassword(userPassword));
+    const res = await dispatch(changePassword(userPassword));
 
     // clearing the input fields
     setUserPassword({
       oldPassword: "",
       newPassword: "",
     });
+
+    // redirecting to profile page if password changed
+    if (res.payload.success) navigate("/user/profile");
   };
 
   return (

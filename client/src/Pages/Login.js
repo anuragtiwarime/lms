@@ -37,7 +37,7 @@ const Login = () => {
     const res = await dispatch(login(loginData));
 
     // redirect to login page if true
-    if (res.payload.success) navigate("/");
+    if (res?.payload?.success) navigate("/");
 
     // clearing the login inputs
     setLoginData({

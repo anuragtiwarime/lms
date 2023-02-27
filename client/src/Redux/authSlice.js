@@ -98,7 +98,30 @@ export const changePassword = createAsyncThunk(
 
       // getting response resolved here
       res = await res;
+      return res.data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
 
+// function to handle forget password
+export const forgetPassword = createAsyncThunk(
+  "auth/forgetPassword",
+  async (email) => {
+    try {
+      let res = axiosInstance.post("/user/reset", { email });
+
+      await toast.promise(res, {
+        loading: "Loading...",
+        success: (data) => {
+          return data?.data?.message;
+        },
+        error: "Failed to send verification email",
+      });
+
+      // getting response resolved here
+      res = await res;
       return res.data;
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -114,11 +137,11 @@ const authSlice = createSlice({
     builder
       // for user login
       .addCase(login.fulfilled, (state, action) => {
-        localStorage.setItem("data", JSON.stringify(action.payload.user));
+        localStorage.setItem("data", JSON.stringify(action?.payload?.user));
         localStorage.setItem("isLoggedIn", true);
         state.isLoggedIn = true;
-        state.data = action.payload.user;
-        state.role = action.payload.user.role;
+        state.data = action?.payload?.user;
+        state.role = action?.payload?.user?.role;
       })
       // for user logout
       .addCase(logout.fulfilled, (state) => {
@@ -128,11 +151,11 @@ const authSlice = createSlice({
       })
       // for user details
       .addCase(getUserData.fulfilled, (state, action) => {
-        localStorage.setItem("data", JSON.stringify(action.payload.user));
+        localStorage.setItem("data", JSON.stringify(action?.payload?.user));
         localStorage.setItem("isLoggedIn", true);
         state.isLoggedIn = true;
-        state.data = action.payload.user;
-        state.role = action.payload.user.role;
+        state.data = action?.payload?.user;
+        state.role = action?.payload?.user?.role;
       });
   },
 });
