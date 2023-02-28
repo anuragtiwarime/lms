@@ -37,16 +37,20 @@ const Profile = () => {
           </div>
 
           {/* button to change the password */}
-          <div className="flex items-center justify-between gap-5">
+          <div className="flex items-center justify-between gap-2">
             <Link
               to={"/changepassword"}
               className="w-1/2 bg-yellow-600 hover:bg-yellow-700 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold cursor-pointer text-center"
             >
               <button>Change Password</button>
             </Link>
-            <button className="w-1/2 border border-yellow-600 hover:border-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold cursor-pointer">
-              Edit Profile
-            </button>
+
+            <Link
+              to={"/user/editprofile"}
+              className="w-1/2 border border-yellow-600 hover:border-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold cursor-pointer text-center"
+            >
+              <button>Edit Profile</button>
+            </Link>
           </div>
         </div>
       </div>

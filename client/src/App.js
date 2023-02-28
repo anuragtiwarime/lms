@@ -16,6 +16,7 @@ import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
 import CourseDescription from "./Pages/Course/CourseDescription";
 import Profile from "./Pages/User/Profile";
 import ChangePassword from "./Pages/Password/ChangePassword";
+import EditProfile from "./Pages/User/EditProfile";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/user/profile" element={<Profile />} />
+        <Route path="/user/editprofile" element={<EditProfile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

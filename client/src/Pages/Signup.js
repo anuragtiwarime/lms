@@ -65,8 +65,8 @@ const Signup = () => {
     }
 
     // checking the name field length
-    if (signupData.fullName.length < 3) {
-      toast.error("Name should be atleast of 3 characters");
+    if (signupData.fullName.length < 5) {
+      toast.error("Name should be atleast of 5 characters");
       return;
     }
 
@@ -85,8 +85,6 @@ const Signup = () => {
       );
       return;
     }
-
-    console.log(signupData);
 
     // creating the form data from the existing data
     const formData = new FormData();
