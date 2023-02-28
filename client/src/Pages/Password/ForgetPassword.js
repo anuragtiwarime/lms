@@ -32,9 +32,6 @@ const ForgetPassword = () => {
 
     // clearing the input fields
     setEmail("");
-
-    // redirecting to profile page if password changed
-    if (res?.payload?.success) navigate("/resetpassword");
   };
 
   return (

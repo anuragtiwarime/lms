@@ -33,7 +33,7 @@ const App = () => {
         <Route path="/checkout/success" element={<CheckoutSuccess />} />
         <Route path="/checkout/fail" element={<CheckoutFail />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
         <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/user/profile" element={<Profile />} />
