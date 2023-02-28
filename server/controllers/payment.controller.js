@@ -54,29 +54,41 @@ export const verifySubscription = asyncHandler(async (req, res, _next) => {
   const { razorpay_payment_id, razorpay_subscription_id, razorpay_signature } =
     req.body;
 
+  // Finding the user
   const user = await User.findById(id);
 
+  // Getting the subscription ID from the user object
   const subscriptionId = user.subscription.id;
 
+  // Generating a signature with SHA256 for verification purposes
+  // Here the subscriptionId should be the one which we saved in the DB
+  // razorpay_payment_id is from the frontend and there should be a '|' character between this and subscriptionId
+  // At the end convert it to Hex value
   const generatedSignature = crypto
     .createHmac('sha256', process.env.RAZORPAY_SECRET)
     .update(`${razorpay_payment_id}|${subscriptionId}`)
     .digest('hex');
 
+  // Check if generated signature and signature received from the frontend is the same or not
   if (generatedSignature !== razorpay_signature) {
+    // If not same then redirect to payment-failed route
     return res.redirect(process.env.FRONTEND_URL + '/payment-failed');
   }
 
+  // If they match create payment and store it in the DB
   await Payment.create({
     razorpay_payment_id,
     razorpay_subscription_id,
     razorpay_signature,
   });
 
+  // Update the user subscription status to active (This will be created before this)
   user.subscription.status = 'active';
 
+  // Save the user in the DB with any changes
   await user.save();
 
+  // Everything is successful and now redirect user to payment-successful route
   res.redirect(
     process.env.FRONTEND_URL + '/payment-success?ref=' + razorpay_payment_id
   );
@@ -90,6 +102,7 @@ export const verifySubscription = asyncHandler(async (req, res, _next) => {
 export const cancelSubscription = asyncHandler(async (req, res, next) => {
   const { id } = req.user;
 
+  // Finding the user
   const user = await User.findById(id);
 
   // Checking the user role
@@ -139,10 +152,12 @@ export const cancelSubscription = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // If refund period is valid then refund the full amount that the user has paid
   await razorpay.payments.refund(payment.razorpay_payment_id, {
-    speed: 'optimum',
+    speed: 'optimum', // This is required
   });
 
+  // Send the response
   res.status(200).json({
     success: true,
     message: 'Subscription canceled successfully',
