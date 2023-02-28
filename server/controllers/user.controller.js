@@ -277,8 +277,6 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
     forgotPasswordExpiry: { $gt: Date.now() }, // $gt will help us check for greater than value, with this we can check if token is valid or expired
   });
 
-  console.log(user);
-
   // If not found or expired send the response
   if (!user) {
     return next(
