@@ -11,7 +11,7 @@ import Payment from '../models/Payment.model.js';
  * @ROUTE @POST {{URL}}/api/v1/payments/subscribe
  * @ACCESS Private (Logged in user only)
  */
-export const activateSubscription = asyncHandler(async (req, res, next) => {
+export const buySubscription = asyncHandler(async (req, res, next) => {
   // Extracting ID from request obj
   const { id } = req.user;
 
@@ -158,7 +158,7 @@ export const cancelSubscription = asyncHandler(async (req, res, next) => {
   });
 
   user.subscription.id = undefined; // Remove the subscription ID from user DB
-  user.subscription.status = 'inactive'; // Change the subscription Status to inactive in user DB
+  user.subscription.status = undefined; // Change the subscription Status in user DB
 
   await user.save();
   await payment.remove();
