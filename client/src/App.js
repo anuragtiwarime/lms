@@ -17,6 +17,7 @@ import CourseDescription from "./Pages/Course/CourseDescription";
 import Profile from "./Pages/User/Profile";
 import ChangePassword from "./Pages/Password/ChangePassword";
 import EditProfile from "./Pages/User/EditProfile";
+import CreateCourse from "./Pages/Course/CreateCourse";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<CourseList />} />
         <Route path="/course/description" element={<CourseDescription />} />
+        <Route path="/course/create" element={<CreateCourse />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/checkout/success" element={<CheckoutSuccess />} />
         <Route path="/checkout/fail" element={<CheckoutFail />} />

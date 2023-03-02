@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import CourseCard from "../../Components/CourseCard";
 import Layout from "../../Layout/Layout";
+import { getAllCourses } from "../../Redux/courseSlice";
 
 const Courses = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllCourses());
+  }, []);
+
   return (
     <Layout>
       {/* courses container for displaying the cards */}
@@ -13,7 +21,7 @@ const Courses = () => {
         </h1>
 
         {/* wrapper for courses card */}
-        <div className="mb-10 flex flex-wrap gap-14 ">
+        <div className="mb-10 flex flex-wrap gap-14">
           <CourseCard />
           <CourseCard />
           <CourseCard />
