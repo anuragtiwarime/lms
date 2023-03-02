@@ -143,7 +143,7 @@ export const cancelSubscription = asyncHandler(async (req, res, next) => {
   const refundPeriod = 14 * 24 * 60 * 60 * 1000;
 
   // Check if refund period has expired or not
-  if (refundPeriod > timeSinceSubscribed) {
+  if (refundPeriod <= timeSinceSubscribed) {
     return next(
       new AppErr(
         'Refund period is over, so there will not be any refunds provided.',
@@ -156,6 +156,12 @@ export const cancelSubscription = asyncHandler(async (req, res, next) => {
   await razorpay.payments.refund(payment.razorpay_payment_id, {
     speed: 'optimum', // This is required
   });
+
+  user.subscription.id = undefined; // Remove the subscription ID from user DB
+  user.subscription.status = 'inactive'; // Change the subscription Status to inactive in user DB
+
+  await user.save();
+  await payment.remove();
 
   // Send the response
   res.status(200).json({
