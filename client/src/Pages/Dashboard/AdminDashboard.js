@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import {
   Chart as ChartJS,
@@ -17,6 +17,9 @@ import { GiMoneyStack } from "react-icons/gi";
 import { FcSalesPerformance } from "react-icons/fc";
 import { BsTrash } from "react-icons/bs";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCourses } from "../../Redux/courseSlice";
 
 ChartJS.register(
   ArcElement,
@@ -29,6 +32,8 @@ ChartJS.register(
 );
 
 const AdminDashboard = () => {
+  const dispatch = useDispatch();
+
   const userData = {
     labels: ["Registered User", "Enrolled User"],
     datasets: [
@@ -68,6 +73,16 @@ const AdminDashboard = () => {
       },
     ],
   };
+
+  // getting the courses data from redux toolkit store
+  const myCourses = useSelector((state) => state.course.coursesData);
+  console.log(myCourses);
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(getAllCourses());
+    })();
+  }, []);
 
   return (
     <Layout>
@@ -138,59 +153,57 @@ const AdminDashboard = () => {
         </div>
 
         {/* CRUD courses section */}
-        <div className="mx-[10%] w-[80%] self-center flex flex-col items-center justify-center gap-10 mb-10">
+        <div className="mx-[10%] w-[90vw] self-center flex flex-col items-center justify-center gap-10 mb-10 bg-red-500">
           <div className="flex w-full items-center justify-between">
             <h1 className="text-center text-3xl font-semibold">
               Courses Overview
             </h1>
 
             {/* add course card */}
-            <button className="w-fit bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded py-2 px-4 font-semibold text-lg cursor-pointer">
-              Create New Course
-            </button>
+            <Link to={"/course/create"}>
+              <button className="w-fit bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded py-2 px-4 font-semibold text-lg cursor-pointer">
+                Create New Course
+              </button>
+            </Link>
           </div>
 
-          <table className="table w-full">
+          <table className="table table-auto">
             <thead>
               <tr>
                 <th>S No.</th>
-                <th>Course Name</th>
+                <th>Course Title</th>
                 <th>Course Category</th>
-                <th>Instructor</th>
-                <th>Options</th>
+                <th>Created By</th>
+                <th>Total Lectures</th>
+                <th>Course Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr>
-                <td>01</td>
-                <td>HTML5</td>
-                <td>Web Development</td>
-                <td>Vinay</td>
-                <td className="flex items-center gap-4">
-                  <button className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold">
-                    <MdOutlineModeEdit />
-                  </button>
-                  <button className="bg-red-500 hover:bg-red-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold">
-                    <BsTrash />
-                  </button>
-                </td>
-              </tr>
+              {myCourses?.map((element, index) => {
+                return (
+                  <tr key={element?._id}>
+                    <td>{index + 1}</td>
+                    <td>{element?.title}</td>
+                    <td>{element?.category}</td>
+                    <td>{element?.createdBy}</td>
+                    <td>{element?.numberOfLectures}</td>
+                    <td className="max-w-28 overflow-hidden text-ellipsis whitespace-nowrap">
+                      {element?.description}
+                    </td>
 
-              <tr>
-                <td>01</td>
-                <td>HTML5</td>
-                <td>Web Development</td>
-                <td>Vinay</td>
-                <td className="flex items-center gap-4">
-                  <button className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold">
-                    <MdOutlineModeEdit />
-                  </button>
-                  <button className="bg-red-500 hover:bg-red-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold">
-                    <BsTrash />
-                  </button>
-                </td>
-              </tr>
+                    <td className="flex items-center gap-4">
+                      <button className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold">
+                        <MdOutlineModeEdit />
+                      </button>
+                      <button className="bg-red-500 hover:bg-red-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold">
+                        <BsTrash />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

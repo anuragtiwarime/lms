@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import axiosInstance from "../Helper/axiosInstance";
 
 const initialState = {
-  data: [],
+  coursesData: [],
 };
 
 // function to get all courses
@@ -20,7 +20,9 @@ export const getAllCourses = createAsyncThunk("/get/courses", async () => {
     const response = await res;
 
     return response.data.courses;
-  } catch (error) {}
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
 });
 
 // function to create a new course
@@ -40,7 +42,7 @@ export const createNewCourse = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   }
 );
@@ -49,7 +51,11 @@ const courseSlice = createSlice({
   name: "course",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(getAllCourses.fulfilled, (state, action) => {
+      state.coursesData = [...action.payload];
+    });
+  },
 });
 
 export const {} = courseSlice.actions;
