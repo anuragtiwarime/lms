@@ -162,7 +162,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* CRUD courses section */}
-        <div className="mx-[10%] w-[90%] self-center flex flex-col items-center justify-center gap-10 mb-10">
+        <div className="mx-[10%] w-[80%] self-center flex flex-col items-center justify-center gap-10 mb-10">
           <div className="flex w-full items-center justify-between">
             <h1 className="text-center text-3xl font-semibold">
               Courses Overview
@@ -194,12 +194,18 @@ const AdminDashboard = () => {
                 return (
                   <tr key={element?._id}>
                     <td>{index + 1}</td>
-                    <td>{element?.title}</td>
+                    <td>
+                      <textarea className="w-40 h-auto bg-transparent resize-none">
+                        {element?.title}
+                      </textarea>
+                    </td>
                     <td>{element?.category}</td>
                     <td>{element?.createdBy}</td>
                     <td>{element?.numberOfLectures}</td>
                     <td className="max-w-28 overflow-hidden text-ellipsis whitespace-nowrap">
-                      {element?.description}
+                      <textarea className="w-80 h-auto bg-transparent resize-none">
+                        {element?.description}
+                      </textarea>
                     </td>
 
                     <td className="flex items-center gap-4">
