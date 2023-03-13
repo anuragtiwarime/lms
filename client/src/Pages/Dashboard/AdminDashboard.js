@@ -19,7 +19,7 @@ import { BsTrash } from "react-icons/bs";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCourses } from "../../Redux/courseSlice";
+import { deleteCourse, getAllCourses } from "../../Redux/courseSlice";
 
 ChartJS.register(
   ArcElement,
@@ -76,7 +76,16 @@ const AdminDashboard = () => {
 
   // getting the courses data from redux toolkit store
   const myCourses = useSelector((state) => state.course.coursesData);
-  console.log(myCourses);
+
+  // function to handle the course delete
+  const handleCourseDelete = async (id) => {
+    const res = await dispatch(deleteCourse(id));
+
+    // fetching the new updated data for the course
+    if (res.payload.success) {
+      await dispatch(getAllCourses());
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -153,7 +162,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* CRUD courses section */}
-        <div className="mx-[10%] w-[90vw] self-center flex flex-col items-center justify-center gap-10 mb-10 bg-red-500">
+        <div className="mx-[10%] w-[90%] self-center flex flex-col items-center justify-center gap-10 mb-10">
           <div className="flex w-full items-center justify-between">
             <h1 className="text-center text-3xl font-semibold">
               Courses Overview
@@ -197,7 +206,10 @@ const AdminDashboard = () => {
                       <button className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold">
                         <MdOutlineModeEdit />
                       </button>
-                      <button className="bg-red-500 hover:bg-red-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold">
+                      <button
+                        onClick={() => handleCourseDelete(element._id)}
+                        className="bg-red-500 hover:bg-red-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold"
+                      >
                         <BsTrash />
                       </button>
                     </td>

@@ -7,7 +7,7 @@ const initialState = {
 };
 
 // function to get all courses
-export const getAllCourses = createAsyncThunk("/get/courses", async () => {
+export const getAllCourses = createAsyncThunk("/course/get", async () => {
   try {
     const res = axiosInstance.get("/courses");
 
@@ -39,7 +39,6 @@ export const createNewCourse = createAsyncThunk(
       });
 
       const response = await res;
-
       return response.data;
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -47,13 +46,34 @@ export const createNewCourse = createAsyncThunk(
   }
 );
 
+// function to delete the course
+export const deleteCourse = createAsyncThunk("/course/delete", async (id) => {
+  try {
+    const res = axiosInstance.delete(`courses/${id}`);
+
+    toast.promise(res, {
+      loading: "Deleting the course...",
+      success: "Courses deleted successfully",
+      error: "Failed to delete course",
+    });
+
+    const response = await res;
+
+    return response.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+});
+
 const courseSlice = createSlice({
   name: "course",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllCourses.fulfilled, (state, action) => {
-      state.coursesData = [...action.payload];
+      if (action.payload) {
+        state.coursesData = [...action.payload];
+      }
     });
   },
 });

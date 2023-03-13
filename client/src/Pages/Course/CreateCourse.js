@@ -43,15 +43,16 @@ const CreateCourse = () => {
 
     // calling the api
     const res = await dispatch(createNewCourse(userInput));
-    console.log(res);
 
-    //   clearing the input boxes
-    setUserInput({
-      title: "",
-      category: "",
-      createdBy: "",
-      description: "",
-    });
+    // function to clear the input fields
+    if (res?.payload?.success) {
+      setUserInput({
+        title: "",
+        category: "",
+        createdBy: "",
+        description: "",
+      });
+    }
   };
 
   return (
