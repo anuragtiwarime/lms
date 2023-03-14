@@ -182,7 +182,7 @@ const AdminDashboard = () => {
                 <th>S No.</th>
                 <th>Course Title</th>
                 <th>Course Category</th>
-                <th>Created By</th>
+                <th>Instructor</th>
                 <th>Total Lectures</th>
                 <th>Course Description</th>
                 <th>Actions</th>
