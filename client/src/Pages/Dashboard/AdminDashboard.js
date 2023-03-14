@@ -195,17 +195,21 @@ const AdminDashboard = () => {
                   <tr key={element?._id}>
                     <td>{index + 1}</td>
                     <td>
-                      <textarea className="w-40 h-auto bg-transparent resize-none">
-                        {element?.title}
-                      </textarea>
+                      <textarea
+                        readOnly
+                        className="w-40 h-auto bg-transparent resize-none"
+                        value={element?.title}
+                      ></textarea>
                     </td>
                     <td>{element?.category}</td>
                     <td>{element?.createdBy}</td>
                     <td>{element?.numberOfLectures}</td>
                     <td className="max-w-28 overflow-hidden text-ellipsis whitespace-nowrap">
-                      <textarea className="w-80 h-auto bg-transparent resize-none">
-                        {element?.description}
-                      </textarea>
+                      <textarea
+                        readOnly
+                        className="w-80 h-auto bg-transparent resize-none"
+                        value={element?.description}
+                      ></textarea>
                     </td>
 
                     <td className="flex items-center gap-4">
