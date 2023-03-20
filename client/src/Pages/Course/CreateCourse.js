@@ -1,13 +1,34 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import { createNewCourse } from "../../Redux/courseSlice";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const CreateCourse = () => {
   const dispatch = useDispatch();
+  const [previewImage, setImagePreview] = useState("");
+
+  // function to handle the image upload
+  const getImage = (event) => {
+    event.preventDefault();
+    // getting the image
+    const uploadedImage = event.target.files[0];
+
+    // if image exists then getting the url link of it
+    if (uploadedImage) {
+      setUserInput({
+        ...userInput,
+        thumbnail: uploadedImage,
+      });
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(uploadedImage);
+      fileReader.addEventListener("load", function () {
+        setImagePreview(this.result);
+      });
+    }
+  };
 
   // for storing the user input
   const [userInput, setUserInput] = useState({
@@ -15,6 +36,7 @@ const CreateCourse = () => {
     category: "",
     createdBy: "",
     description: "",
+    thumbnail: undefined,
   });
 
   // function to handle user input
@@ -35,7 +57,8 @@ const CreateCourse = () => {
       !userInput.title ||
       !userInput.category ||
       !userInput.createdBy ||
-      !userInput.description
+      !userInput.description ||
+      !userInput.thumbnail
     ) {
       toast.error("All fields are mandatory");
       return;
@@ -51,6 +74,7 @@ const CreateCourse = () => {
         category: "",
         createdBy: "",
         description: "",
+        thumbnail: undefined,
       });
     }
   };
@@ -61,7 +85,7 @@ const CreateCourse = () => {
         {/* card for creating the new card */}
         <form
           onSubmit={handleFormSubmit}
-          className="flex flex-col justify-center gap-10 rounded-lg p-4 text-white w-[700px] h-[450px] my-10 shadow-[0_0_10px_black] relative"
+          className="flex flex-col justify-center gap-5 rounded-lg p-4 text-white w-[700px] h-[450px] my-10 shadow-[0_0_10px_black] relative"
         >
           <Link
             to={"/admin/dashboard"}
@@ -76,7 +100,34 @@ const CreateCourse = () => {
 
           <main className="grid grid-cols-2 gap-x-10">
             {/* for course basic details */}
-            <div className="space-y-5">
+            <div className="space-y-6">
+              <div>
+                {/* input for image file */}
+                <label className="cursor-pointer" htmlFor="image_uploads">
+                  {previewImage ? (
+                    <img
+                      className="w-full h-44 m-auto border"
+                      src={previewImage}
+                      alt="preview image"
+                    />
+                  ) : (
+                    <div className="w-full h-44 m-auto flex items-center justify-center border">
+                      <h1 className="font-bold text-lg">
+                        Upload your course thumbnail
+                      </h1>
+                    </div>
+                  )}
+                </label>
+                <input
+                  onChange={getImage}
+                  className="hidden"
+                  type="file"
+                  id="image_uploads"
+                  name="image_uploads"
+                  accept=".jpg, .jpeg, .png"
+                />
+              </div>
+
               {/* adding the title section */}
               <div className="flex flex-col gap-1">
                 <label className="text-lg font-semibold" htmlFor="title">
@@ -93,7 +144,12 @@ const CreateCourse = () => {
                   onChange={handleUserInput}
                 />
               </div>
+            </div>
 
+            {/* for course description and go to profile button */}
+
+            {/* adding the course description */}
+            <div className="flex flex-col gap-1">
               {/* adding the instructor */}
               <div className="flex flex-col gap-1">
                 <label className="text-lg font-semibold" htmlFor="createdBy">
@@ -127,25 +183,22 @@ const CreateCourse = () => {
                   onChange={handleUserInput}
                 />
               </div>
-            </div>
 
-            {/* for course description and go to profile button */}
-
-            {/* adding the course description */}
-            <div className="flex flex-col gap-1">
-              <label className="text-lg font-semibold" htmlFor="description">
-                Course Description
-              </label>
-              <textarea
-                required
-                type="text"
-                name="description"
-                id="description"
-                placeholder="Enter the course description"
-                className="bg-transparent px-2 py-1 border h-52 resize-none"
-                value={userInput.description}
-                onChange={handleUserInput}
-              />
+              <div className="flex flex-col gap-1">
+                <label className="text-lg font-semibold" htmlFor="description">
+                  Course Description
+                </label>
+                <textarea
+                  required
+                  type="text"
+                  name="description"
+                  id="description"
+                  placeholder="Enter the course description"
+                  className="bg-transparent px-2 py-1 border h-24 overflow-y-scroll resize-none"
+                  value={userInput.description}
+                  onChange={handleUserInput}
+                />
+              </div>
             </div>
           </main>
 
