@@ -76,6 +76,7 @@ const CreateCourse = () => {
         description: "",
         thumbnail: undefined,
       });
+      setImagePreview("");
     }
   };
 

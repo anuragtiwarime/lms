@@ -11,8 +11,8 @@ const CourseCard = ({ data }) => {
     >
       <div className="overflow-hidden">
         <img
-          className="rounded-tl-lg rounded-tr-lg  group-hover:scale-[1.2]  transition-all ease-in-out duration-300 "
-          src="https://static-cse.canva.com/blob/999484/1600w-K9NTgBT1uG8.jpg"
+          className="h-48 w-full rounded-tl-lg rounded-tr-lg  group-hover:scale-[1.2]  transition-all ease-in-out duration-300 "
+          src={data?.thumbnail?.secure_url}
           alt="course thumbnail"
         />
       </div>

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 
 const CourseDescription = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // scroll to the top on page render
@@ -19,7 +20,8 @@ const CourseDescription = () => {
           {/* creating the left side of description box */}
           <div className="space-y-5">
             <img
-              src="https://static-cse.canva.com/blob/999484/1600w-K9NTgBT1uG8.jpg"
+              className="w-full h-64"
+              src={state?.thumbnail?.secure_url}
               alt="thumbnail"
             />
 
@@ -41,11 +43,13 @@ const CourseDescription = () => {
               </div>
 
               {/* adding the subscribe button */}
-              <Link to={"/checkout"}>
-                <button className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300">
-                  Subscribe to Course
-                </button>
-              </Link>
+
+              <button
+                onClick={() => navigate("/checkout")}
+                className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300"
+              >
+                Subscribe to Course
+              </button>
             </div>
           </div>
 
