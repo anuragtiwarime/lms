@@ -251,7 +251,6 @@ export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
  * @ACCESS Private (Admin only)
  */
 export const updateCourseById = asyncHandler(async (req, res, next) => {
-  // TODO: Update
   // Extracting the course id from the request params
   const { id } = req.params;
 
