@@ -18,6 +18,7 @@ import Profile from "./Pages/User/Profile";
 import ChangePassword from "./Pages/Password/ChangePassword";
 import EditProfile from "./Pages/User/EditProfile";
 import CreateCourse from "./Pages/Course/CreateCourse";
+import Lectures from "./Pages/Dashboard/Lectures";
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
         <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/lectures" element={<Lectures />} />
         <Route path="/user/profile" element={<Profile />} />
         <Route path="/user/editprofile" element={<EditProfile />} />
         <Route path="*" element={<NotFound />} />

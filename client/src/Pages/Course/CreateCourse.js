@@ -1,14 +1,30 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Layout from "../../Layout/Layout";
-import { createNewCourse } from "../../Redux/courseSlice";
+import { createNewCourse, updateCourse } from "../../Redux/courseSlice";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const CreateCourse = () => {
   const dispatch = useDispatch();
-  const [previewImage, setImagePreview] = useState("");
+  const navigate = useNavigate();
+
+  // for getting the data from location of previous component
+  const { initialCourseData } = useLocation().state;
+
+  // for toggling disable of image input box
+  const [isDisabled, setIsDisabled] = useState(!initialCourseData?.newCourse);
+
+  // for storing the user input
+  const [userInput, setUserInput] = useState({
+    title: initialCourseData?.title,
+    category: initialCourseData?.category,
+    createdBy: initialCourseData?.createdBy,
+    description: initialCourseData?.description,
+    thumbnail: undefined,
+    previewImage: initialCourseData?.thumbnail?.secure_url,
+  });
 
   // function to handle the image upload
   const getImage = (event) => {
@@ -18,26 +34,14 @@ const CreateCourse = () => {
 
     // if image exists then getting the url link of it
     if (uploadedImage) {
-      setUserInput({
-        ...userInput,
-        thumbnail: uploadedImage,
-      });
+      setUserInput({ ...userInput, thumbnail: uploadedImage });
       const fileReader = new FileReader();
       fileReader.readAsDataURL(uploadedImage);
       fileReader.addEventListener("load", function () {
-        setImagePreview(this.result);
+        setUserInput({ ...userInput, previewImage: this.result });
       });
     }
   };
-
-  // for storing the user input
-  const [userInput, setUserInput] = useState({
-    title: "",
-    category: "",
-    createdBy: "",
-    description: "",
-    thumbnail: undefined,
-  });
 
   // function to handle user input
   const handleUserInput = (event) => {
@@ -52,22 +56,45 @@ const CreateCourse = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    //   checking for the empty fields
-    if (
-      !userInput.title ||
-      !userInput.category ||
-      !userInput.createdBy ||
-      !userInput.description ||
-      !userInput.thumbnail
-    ) {
-      toast.error("All fields are mandatory");
-      return;
+    let res = undefined;
+
+    // for creating a new course
+    if (initialCourseData.newCourse) {
+      //   checking for the empty fields
+      console.log(userInput);
+      if (
+        !userInput.title ||
+        !userInput.category ||
+        !userInput.createdBy ||
+        !userInput.description ||
+        !userInput.thumbnail
+      ) {
+        toast.error("All fields are mandatory");
+        return;
+      }
+
+      // calling the api
+      res = await dispatch(createNewCourse(userInput));
+    }
+    // for updating an existing course
+    else {
+      //   checking for the empty fields
+      if (
+        !userInput.title ||
+        !userInput.category ||
+        !userInput.createdBy ||
+        !userInput.description
+      ) {
+        toast.error("All fields are mandatory");
+        return;
+      }
+
+      const data = { ...userInput, id: initialCourseData._id };
+      // calling the api
+      res = await dispatch(updateCourse(data));
     }
 
-    // calling the api
-    const res = await dispatch(createNewCourse(userInput));
-
-    // function to clear the input fields
+    // clearing the input fields
     if (res?.payload?.success) {
       setUserInput({
         title: "",
@@ -75,8 +102,13 @@ const CreateCourse = () => {
         createdBy: "",
         description: "",
         thumbnail: undefined,
+        previewImage: "",
       });
-      setImagePreview("");
+
+      setIsDisabled(false);
+
+      // redirecting the user to admin dashboard
+      navigate("/admin/dashboard");
     }
   };
 
@@ -96,19 +128,26 @@ const CreateCourse = () => {
           </Link>
 
           <h1 className="text-center text-2xl font-bold">
-            Create New <span>Course</span>
+            {!initialCourseData.newCourse ? "Update" : "Create new"}{" "}
+            <span>Course</span>
           </h1>
 
           <main className="grid grid-cols-2 gap-x-10">
             {/* for course basic details */}
             <div className="space-y-6">
-              <div>
+              <div
+                onClick={() =>
+                  !initialCourseData.newCourse
+                    ? toast.error("Cannot update thumbnail image")
+                    : ""
+                }
+              >
                 {/* input for image file */}
                 <label className="cursor-pointer" htmlFor="image_uploads">
-                  {previewImage ? (
+                  {userInput.previewImage ? (
                     <img
                       className="w-full h-44 m-auto border"
-                      src={previewImage}
+                      src={userInput.previewImage}
                       alt="preview image"
                     />
                   ) : (
@@ -126,6 +165,7 @@ const CreateCourse = () => {
                   id="image_uploads"
                   name="image_uploads"
                   accept=".jpg, .jpeg, .png"
+                  disabled={isDisabled}
                 />
               </div>
 
@@ -207,7 +247,7 @@ const CreateCourse = () => {
             className="w-full bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"
             type="submit"
           >
-            Create Course
+            {!initialCourseData.newCourse ? "Update Course" : "Create Course"}
           </button>
         </form>
       </div>

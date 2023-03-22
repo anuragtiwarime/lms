@@ -15,9 +15,9 @@ import { Pie, Bar } from "react-chartjs-2";
 import { FaUsers } from "react-icons/fa";
 import { GiMoneyStack } from "react-icons/gi";
 import { FcSalesPerformance } from "react-icons/fc";
-import { BsTrash } from "react-icons/bs";
+import { BsCollectionPlayFill, BsTrash } from "react-icons/bs";
 import { MdOutlineModeEdit } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCourse, getAllCourses } from "../../Redux/courseSlice";
 
@@ -33,6 +33,7 @@ ChartJS.register(
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const userData = {
     labels: ["Registered User", "Enrolled User"],
@@ -169,14 +170,29 @@ const AdminDashboard = () => {
             </h1>
 
             {/* add course card */}
-            <Link to={"/course/create"}>
-              <button className="w-fit bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded py-2 px-4 font-semibold text-lg cursor-pointer">
-                Create New Course
-              </button>
-            </Link>
+            <button
+              onClick={() => {
+                navigate("/course/create", {
+                  state: {
+                    initialCourseData: {
+                      newCourse: true,
+                      title: "",
+                      category: "",
+                      createdBy: "",
+                      description: "",
+                      thumbnail: undefined,
+                      previewImage: "",
+                    },
+                  },
+                });
+              }}
+              className="w-fit bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 rounded py-2 px-4 font-semibold text-lg cursor-pointer"
+            >
+              Create New Course
+            </button>
           </div>
 
-          <table className="table table-auto">
+          <table className="table overflow-x-scroll">
             <thead>
               <tr>
                 <th>S No.</th>
@@ -213,14 +229,39 @@ const AdminDashboard = () => {
                     </td>
 
                     <td className="flex items-center gap-4">
-                      <button className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold">
+                      {/* to edit the course */}
+                      <button
+                        onClick={() =>
+                          navigate("/course/create", {
+                            state: {
+                              initialCourseData: {
+                                newCourse: false,
+                                ...element,
+                              },
+                            },
+                          })
+                        }
+                        className="bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold"
+                      >
                         <MdOutlineModeEdit />
                       </button>
+
+                      {/* to delete the course */}
                       <button
                         onClick={() => handleCourseDelete(element._id)}
                         className="bg-red-500 hover:bg-red-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold"
                       >
                         <BsTrash />
+                      </button>
+
+                      {/* to CRUD the lectures */}
+                      <button
+                        onClick={() =>
+                          navigate("/admin/lectures", { state: { ...element } })
+                        }
+                        className="bg-green-500 hover:bg-green-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold"
+                      >
+                        <BsCollectionPlayFill />
                       </button>
                     </td>
                   </tr>
