@@ -18,6 +18,10 @@ export const buySubscription = asyncHandler(async (req, res, next) => {
   // Finding the user based on the ID
   const user = await User.findById(id);
 
+  if (!user) {
+    return next(new AppErr('Unauthorized, please login'));
+  }
+
   // Checking the user role
   if (user.role === 'ADMIN') {
     return next(new AppErr('Admin cannot purchase a subscription', 400));
