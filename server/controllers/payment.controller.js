@@ -58,6 +58,8 @@ export const verifySubscription = asyncHandler(async (req, res, _next) => {
   const { razorpay_payment_id, razorpay_subscription_id, razorpay_signature } =
     req.body;
 
+  console.log(req.body);
+
   // Finding the user
   const user = await User.findById(id);
 
