@@ -53,12 +53,10 @@ export const buySubscription = asyncHandler(async (req, res, next) => {
  * @ROUTE @POST {{URL}}/api/v1/payments/verify
  * @ACCESS Private (Logged in user only)
  */
-export const verifySubscription = asyncHandler(async (req, res, _next) => {
+export const verifySubscription = asyncHandler(async (req, res, next) => {
   const { id } = req.user;
   const { razorpay_payment_id, razorpay_subscription_id, razorpay_signature } =
     req.body;
-
-  console.log(req.body);
 
   // Finding the user
   const user = await User.findById(id);
@@ -75,13 +73,10 @@ export const verifySubscription = asyncHandler(async (req, res, _next) => {
     .update(`${razorpay_payment_id}|${subscriptionId}`)
     .digest('hex');
 
-  console.log(generatedSignature, 'Generated Signature');
-  console.log(razorpay_signature, 'Razorpay Signature');
-
   // Check if generated signature and signature received from the frontend is the same or not
   if (generatedSignature !== razorpay_signature) {
     // If not same then redirect to payment-failed route
-    return res.redirect(process.env.FRONTEND_URL + '/checkout/fail');
+    return next(new AppErr('Payment not verified, please try again.', 400));
   }
 
   // If they match create payment and store it in the DB
@@ -98,9 +93,10 @@ export const verifySubscription = asyncHandler(async (req, res, _next) => {
   await user.save();
 
   // Everything is successful and now redirect user to payment-successful route
-  res.redirect(
-    process.env.FRONTEND_URL + '/checkout/success?ref=' + razorpay_payment_id
-  );
+  res.status(200).json({
+    success: true,
+    messgae: 'Payment verified successfully',
+  });
 });
 
 /**
