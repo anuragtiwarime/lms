@@ -18,6 +18,7 @@ const Checkout = () => {
     (state) => state.razorpay.subscription_id
   );
   const userData = useSelector((state) => state.auth.data);
+  const { isPaymentVerified } = useSelector((state) => state.razorpay);
 
   // for storing the payment details after successfull transaction
   const paymentDetails = {
@@ -25,35 +26,6 @@ const Checkout = () => {
     razorpay_subscription_id: "",
     razorpay_signature: "",
   };
-  // console.log(userData);
-
-  // object for razor pay
-  // const options = {
-  //   key: "",
-  //   subscription_id: "",
-  //   name: "",
-  //   description: "",
-  //   image: "",
-  //   handler: (response) => { },
-  //   prefill: {},
-  //   notes: {},
-  //   theme:{}
-  // }
-
-  // function for razor pay script
-  // const loadScript = (src) => {
-  //   return new Promise((resolve) => {
-  //     const script = document.createElement("script");
-  //     script.src = src;
-  //     script.onload = () => {
-  //       resolve(true);
-  //     };
-  //     script.onerror = () => {
-  //       resolve(false);
-  //     };
-  //     document.body.appendChild(script);
-  //   });
-  // };
 
   const handleSubscription = async (event) => {
     event.preventDefault();
@@ -68,35 +40,27 @@ const Checkout = () => {
       subscription_id: subscription_id,
       name: "Coursify Pvt. Ltd.",
       description: "Monthly Subscription",
-      //  "image": "",
       handler: async function (response) {
         paymentDetails.razorpay_payment_id = response.razorpay_payment_id;
         paymentDetails.razorpay_subscription_id =
           response.razorpay_subscription_id;
         paymentDetails.razorpay_signature = response.razorpay_signature;
-        console.log(response.razorpay_payment_id);
-        console.log(response.razorpay_subscription_id);
-        console.log(response.razorpay_signature);
 
         // displaying the success message
         toast.success("Payment Successfull");
 
         // verifying the payment
         const res = await dispatch(verifyUserPayment(paymentDetails));
-        console.log(res);
 
-        // moving to success page
-        navigate("/checkout/success", { state: { ...paymentDetails } });
+        // redirecting the user according to the verification status
+        !isPaymentVerified
+          ? navigate("/checkout/success")
+          : navigate("/checkout/fail");
       },
       prefill: {
         name: userData.fullName,
         email: userData.email,
-        // contact: "+919876543210",
       },
-      // notes: {
-      //   note_key_1: "Tea. Earl Grey. Hot",
-      //   note_key_2: "Make it so.",
-      // },
       theme: {
         color: "#F37254",
       },
@@ -110,9 +74,8 @@ const Checkout = () => {
       await dispatch(getRazorPayId());
       await dispatch(purchaseCourseBundle());
     })();
-    // loadScript("https://checkout.razorpay.com/v1/checkout.js");
   }, []);
-  console.log(razorPayKey, subscription_id);
+
   return (
     <Layout>
       {/* checkout page container */}

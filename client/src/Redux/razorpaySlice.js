@@ -5,6 +5,7 @@ import axiosInstance from "../Helper/axiosInstance";
 const initialState = {
   key: "",
   subscription_id: "",
+  isPaymentVerified: false,
 };
 
 // function to get the api key
@@ -23,7 +24,6 @@ export const purchaseCourseBundle = createAsyncThunk(
       const res = await axiosInstance.post("/payments/subscribe");
       return res.data;
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.message);
     }
   }
@@ -33,16 +33,15 @@ export const purchaseCourseBundle = createAsyncThunk(
 export const verifyUserPayment = createAsyncThunk(
   "/verifyPayment",
   async (paymentDetail) => {
-    // console.log(...paymentDetail);
     try {
       const res = await axiosInstance.post("/payments/verify", {
         razorpay_payment_id: paymentDetail.razorpay_payment_id,
         razorpay_subscription_id: paymentDetail.razorpay_subscription_id,
         razorpay_signature: paymentDetail.razorpay_signature,
       });
-      console.log(res);
+      return res?.data;
     } catch (error) {
-      console.log(error);
+      toast.error("error?.response?.data?.message");
     }
   }
 );
@@ -60,10 +59,15 @@ const razorpaySlice = createSlice({
         state.key = action?.payload?.key;
       })
       .addCase(purchaseCourseBundle.fulfilled, (state, action) => {
-        state.subscription_id = action.payload.subscription_id;
+        state.subscription_id = action?.payload?.subscription_id;
       })
       .addCase(verifyUserPayment.fulfilled, (state, action) => {
-        console.log(action.payload);
+        toast.success(action?.payload?.message);
+        state.isPaymentVerified = action?.payload?.success;
+      })
+      .addCase(verifyUserPayment.rejected, (state, action) => {
+        toast.error(action?.payload?.message);
+        state.isPaymentVerified = action?.payload?.success;
       });
   },
 });

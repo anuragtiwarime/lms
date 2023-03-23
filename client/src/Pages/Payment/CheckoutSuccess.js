@@ -15,18 +15,18 @@ const CheckoutSuccess = () => {
           </h1>
 
           <div className="px-4 flex flex-col items-center justify-center space-y-2">
-            <p className="text-center">
+            <div className="text-center space-y-2">
               <h2 className="text-lg font-semibold">
                 Welcome to the Pro Bundle
               </h2>
-              Now you can enjoy the taste of learning from our vast library of
-              courses from the top subject matter experts of the industry
-            </p>
+              <p className="text-left">
+                Now you can enjoy the taste of learning from our vast library of
+                courses from the top subject matter experts of the industry
+              </p>
+            </div>
 
             {/* adding the check symbol */}
             <AiFillCheckCircle className="text-5xl text-green-500" />
-
-            <p>Payment id : 123456789</p>
           </div>
 
           {/* adding back to homepage button */}
