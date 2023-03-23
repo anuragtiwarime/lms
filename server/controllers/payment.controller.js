@@ -75,6 +75,9 @@ export const verifySubscription = asyncHandler(async (req, res, _next) => {
     .update(`${razorpay_payment_id}|${subscriptionId}`)
     .digest('hex');
 
+  console.log(generatedSignature, 'Generated Signature');
+  console.log(razorpay_signature, 'Razorpay Signature');
+
   // Check if generated signature and signature received from the frontend is the same or not
   if (generatedSignature !== razorpay_signature) {
     // If not same then redirect to payment-failed route
