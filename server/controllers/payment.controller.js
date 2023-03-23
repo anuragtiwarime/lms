@@ -75,7 +75,6 @@ export const verifySubscription = asyncHandler(async (req, res, next) => {
 
   // Check if generated signature and signature received from the frontend is the same or not
   if (generatedSignature !== razorpay_signature) {
-    // If not same then redirect to payment-failed route
     return next(new AppErr('Payment not verified, please try again.', 400));
   }
 
@@ -92,10 +91,9 @@ export const verifySubscription = asyncHandler(async (req, res, next) => {
   // Save the user in the DB with any changes
   await user.save();
 
-  // Everything is successful and now redirect user to payment-successful route
   res.status(200).json({
     success: true,
-    messgae: 'Payment verified successfully',
+    message: 'Payment verified successfully',
   });
 });
 
