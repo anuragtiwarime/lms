@@ -76,7 +76,7 @@ export const verifySubscription = asyncHandler(async (req, res, _next) => {
   // Check if generated signature and signature received from the frontend is the same or not
   if (generatedSignature !== razorpay_signature) {
     // If not same then redirect to payment-failed route
-    return res.redirect(process.env.FRONTEND_URL + '/payment-failed');
+    return res.redirect(process.env.FRONTEND_URL + '/checkout/fail');
   }
 
   // If they match create payment and store it in the DB
@@ -94,7 +94,7 @@ export const verifySubscription = asyncHandler(async (req, res, _next) => {
 
   // Everything is successful and now redirect user to payment-successful route
   res.redirect(
-    process.env.FRONTEND_URL + '/payment-success?ref=' + razorpay_payment_id
+    process.env.FRONTEND_URL + '/checkout/success?ref=' + razorpay_payment_id
   );
 });
 
