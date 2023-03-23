@@ -31,6 +31,7 @@ const CreateCourse = () => {
     event.preventDefault();
     // getting the image
     const uploadedImage = event.target.files[0];
+    console.log(uploadedImage);
 
     // if image exists then getting the url link of it
     if (uploadedImage) {
