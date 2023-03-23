@@ -1,24 +1,24 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import About from "./Pages/About";
-import Contact from "./Pages/Contact";
-import CourseList from "./Pages/Course/CourseList";
-import NotFound from "./Pages/NotFound";
-import HomePage from "./Pages/HomePage";
-import Login from "./Pages/Login";
-import Signup from "./Pages/Signup";
-import Checkout from "./Pages/Payment/Checkout";
-import CheckoutSuccess from "./Pages/Payment/CheckoutSuccess";
-import CheckoutFail from "./Pages/Payment/CheckoutFail";
-import ForgetPassword from "./Pages/Password/ForgetPassword";
-import ResetPassword from "./Pages/Password/ResetPassword";
-import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
-import CourseDescription from "./Pages/Course/CourseDescription";
-import Profile from "./Pages/User/Profile";
-import ChangePassword from "./Pages/Password/ChangePassword";
-import EditProfile from "./Pages/User/EditProfile";
-import CreateCourse from "./Pages/Course/CreateCourse";
-import Lectures from "./Pages/Dashboard/Lectures";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import About from './Pages/About';
+import Contact from './Pages/Contact';
+import CourseList from './Pages/Course/CourseList';
+import NotFound from './Pages/NotFound';
+import HomePage from './Pages/Homepage';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import Checkout from './Pages/Payment/Checkout';
+import CheckoutSuccess from './Pages/Payment/CheckoutSuccess';
+import CheckoutFail from './Pages/Payment/CheckoutFail';
+import ForgetPassword from './Pages/Password/ForgetPassword';
+import ResetPassword from './Pages/Password/ResetPassword';
+import AdminDashboard from './Pages/Dashboard/AdminDashboard';
+import CourseDescription from './Pages/Course/CourseDescription';
+import Profile from './Pages/User/Profile';
+import ChangePassword from './Pages/Password/ChangePassword';
+import EditProfile from './Pages/User/EditProfile';
+import CreateCourse from './Pages/Course/CreateCourse';
+import Lectures from './Pages/Dashboard/Lectures';
 
 const App = () => {
   return (
