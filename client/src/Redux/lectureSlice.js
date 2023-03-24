@@ -16,12 +16,11 @@ export const addCourseLecture = createAsyncThunk(
   "/course/lecture/add",
   async (data) => {
     const formData = new FormData();
-    formData.append("lecture", data.video);
+    formData.append("lecture", data.lecture);
     formData.append("title", data.title);
     formData.append("description", data.description);
 
     try {
-      console.log(data.id);
       const res = axiosInstance.post(`/courses/${data.id}`, formData);
 
       toast.promise(res, {
@@ -31,10 +30,9 @@ export const addCourseLecture = createAsyncThunk(
       });
 
       const response = await res;
-      console.log(response);
-      return response;
+
+      return response.data;
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.message);
     }
   }
@@ -44,7 +42,11 @@ const lectureSlice = createSlice({
   name: "lecture",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(addCourseLecture.fulfilled, (state, action) => {
+      state.lectures = action?.payload?.course?.lectures;
+    });
+  },
 });
 
 export const {} = lectureSlice.actions;
