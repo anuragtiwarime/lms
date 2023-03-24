@@ -22,7 +22,7 @@ const CreateCourse = () => {
     category: initialCourseData?.category,
     createdBy: initialCourseData?.createdBy,
     description: initialCourseData?.description,
-    thumbnail: undefined,
+    thumbnail: null,
     previewImage: initialCourseData?.thumbnail?.secure_url,
   });
 
@@ -35,11 +35,15 @@ const CreateCourse = () => {
 
     // if image exists then getting the url link of it
     if (uploadedImage) {
-      setUserInput({ ...userInput, thumbnail: uploadedImage });
+      // setUserInput({ ...userInput, thumbnail: uploadedImage });
       const fileReader = new FileReader();
       fileReader.readAsDataURL(uploadedImage);
       fileReader.addEventListener("load", function () {
-        setUserInput({ ...userInput, previewImage: this.result });
+        setUserInput({
+          ...userInput,
+          previewImage: this.result,
+          thumbnail: uploadedImage,
+        });
       });
     }
   };

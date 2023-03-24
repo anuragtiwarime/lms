@@ -26,6 +26,7 @@ const Lectures = () => {
   // function to get video and its link from the input
   const getVideo = (event) => {
     const video = event.target.files[0];
+    console.log(video);
     const source = window.URL.createObjectURL(video);
     setUserInput({ ...userInput, videoSrc: source, lecture: video });
   };
