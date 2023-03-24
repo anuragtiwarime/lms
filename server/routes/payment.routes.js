@@ -4,6 +4,7 @@ import {
   buySubscription,
   verifySubscription,
   cancelSubscription,
+  allPayments,
 } from '../controllers/payment.controller.js';
 import {
   authorizeSubscribers,
@@ -18,5 +19,6 @@ router
   .route('/unsubscribe')
   .post(isLoggedIn, authorizeSubscribers, cancelSubscription);
 router.route('/razorpay-key').get(getRazorpayApiKey);
+router.route('/').get(allPayments);
 
 export default router;

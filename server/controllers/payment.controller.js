@@ -185,3 +185,68 @@ export const getRazorpayApiKey = asyncHandler(async (_req, res, _next) => {
     key: process.env.RAZORPAY_KEY_ID,
   });
 });
+
+/**
+ * @GET_RAZORPAY_ID
+ * @ROUTE @GET {{URL}}/api/v1/payments
+ * @ACCESS Piovate
+ */
+export const allPayments = asyncHandler(async (req, res, _next) => {
+  const { count, skip } = req.query;
+
+  const allPayments = await razorpay.subscriptions.all({
+    count: count ? count : 10,
+    skip: skip ? skip : 0,
+  });
+
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  const finalMonths = {
+    January: 0,
+    February: 0,
+    March: 0,
+    April: 0,
+    May: 0,
+    June: 0,
+    July: 0,
+    August: 0,
+    September: 0,
+    October: 0,
+    November: 0,
+    December: 0,
+  };
+
+  const monthlyWisePayments = allPayments.items.map((payment) => {
+    const monthsInNumbers = new Date(payment.start_at * 1000);
+
+    return monthNames[monthsInNumbers.getMonth()];
+  });
+
+  monthlyWisePayments.map((month) => {
+    Object.keys(finalMonths).forEach((objMonth) => {
+      if (month === objMonth) {
+        finalMonths[month] += 1;
+      }
+    });
+  });
+
+  res.status(200).json({
+    success: true,
+    message: 'All payments',
+    allPayments,
+    finalMonths,
+  });
+});
