@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import { addCourseLecture } from "../../Redux/lectureSlice";
 
-const Lectures = () => {
+const AddLectures = () => {
   const courseDetails = useLocation().state;
   const dispatch = useDispatch();
 
@@ -26,7 +26,6 @@ const Lectures = () => {
   // function to get video and its link from the input
   const getVideo = (event) => {
     const video = event.target.files[0];
-    console.log(video);
     const source = window.URL.createObjectURL(video);
     setUserInput({ ...userInput, videoSrc: source, lecture: video });
   };
@@ -34,15 +33,14 @@ const Lectures = () => {
   // function to handle the form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(userInput);
+
     // checking for the empty fields
     if (!userInput.lecture || !userInput.title || !userInput.description) {
       toast.error("All fields are mandatory");
       return;
     }
 
-    const res = await dispatch(addCourseLecture(userInput));
-    console.log(res);
+    await dispatch(addCourseLecture(userInput));
   };
   return (
     <Layout>
@@ -82,4 +80,4 @@ const Lectures = () => {
   );
 };
 
-export default Lectures;
+export default AddLectures;

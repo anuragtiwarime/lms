@@ -9,7 +9,23 @@ const initialState = {
 // function to get all the lectures
 export const getCourseLecture = createAsyncThunk(
   "/course/lecture/get",
-  async () => {}
+  async (courseId) => {
+    try {
+      const res = axiosInstance.get(`/courses/${courseId}`);
+
+      toast.promise(res, {
+        loading: "Fetching the lectures...",
+        success: "Lectures fetched successfully",
+        error: "Failed to fetch lectures",
+      });
+
+      const response = await res;
+
+      return response.data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
 );
 
 export const addCourseLecture = createAsyncThunk(
@@ -43,9 +59,13 @@ const lectureSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addCourseLecture.fulfilled, (state, action) => {
-      state.lectures = action?.payload?.course?.lectures;
-    });
+    builder
+      .addCase(getCourseLecture.fulfilled, (state, action) => {
+        state.lectures = action.payload.lectures;
+      })
+      .addCase(addCourseLecture.fulfilled, (state, action) => {
+        state.lectures = action?.payload?.course?.lectures;
+      });
   },
 });
 
