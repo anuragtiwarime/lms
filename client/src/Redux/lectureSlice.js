@@ -28,6 +28,7 @@ export const getCourseLecture = createAsyncThunk(
   }
 );
 
+// function to add new lecture to the course
 export const addCourseLecture = createAsyncThunk(
   "/course/lecture/add",
   async (data) => {
@@ -49,6 +50,31 @@ export const addCourseLecture = createAsyncThunk(
 
       return response.data;
     } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+// function to delete the lecture from the course
+export const deleteCourseLecture = createAsyncThunk(
+  "/course/lecture/add",
+  async (data) => {
+    try {
+      const res = axiosInstance.delete(
+        `/courses/?courseId=${data.courseId}&lectureId=${data.lectureId}`
+      );
+
+      toast.promise(res, {
+        loading: "Deleting the lecture...",
+        success: "Lecture deleted successfully",
+        error: "Failed to delete lecture",
+      });
+
+      const response = await res;
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
       toast.error(error?.response?.data?.message);
     }
   }
