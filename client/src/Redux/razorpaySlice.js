@@ -70,6 +70,25 @@ export const getPaymentRecord = createAsyncThunk("paymentrecord", async () => {
   }
 });
 
+// function to purchase the course bundle
+export const cancelCourseBundle = createAsyncThunk(
+  "/cancelCourse",
+  async () => {
+    try {
+      const res = axiosInstance.post("/payments/unsubscribe");
+      toast.promise(res, {
+        loading: "Unsubscribing the bundle...",
+        success: "Bundle unsubscibed successfully",
+        error: "Failed to unsubscibe the bundle",
+      });
+      const response = await res;
+      return response.data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
 const razorpaySlice = createSlice({
   name: "razorpay",
   initialState,

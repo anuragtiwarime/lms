@@ -3,11 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import { getUserData } from "../../Redux/authSlice";
+import { cancelCourseBundle } from "../../Redux/razorpaySlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
 
   const userData = useSelector((state) => state?.auth?.data);
+
+  // function to handle the cancel subscription of course
+  const handleCourseCancelSubscription = async () => {
+    await dispatch(cancelCourseBundle());
+    await dispatch(getUserData());
+  };
 
   useEffect(() => {
     // getting user details
@@ -32,8 +39,12 @@ const Profile = () => {
             <p>{userData?.email}</p>
             <p>Role :</p>
             <p>{userData?.role}</p>
-            <p>Total Courses :</p>
-            <p>{userData?.courses?.length}</p>
+            <p>Subscription :</p>
+            <p>
+              {userData?.subscription?.status === "active"
+                ? "Active"
+                : "Inactive"}
+            </p>
           </div>
 
           {/* button to change the password */}
@@ -52,6 +63,15 @@ const Profile = () => {
               <button>Edit Profile</button>
             </Link>
           </div>
+
+          {userData?.subscription?.status === "active" && (
+            <button
+              onClick={handleCourseCancelSubscription}
+              className="w-full bg-red-600 hover:bg-red-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold cursor-pointer text-center"
+            >
+              Cancel Subscription
+            </button>
+          )}
         </div>
       </div>
     </Layout>
