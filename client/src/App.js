@@ -1,24 +1,25 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import About from './Pages/About';
-import Contact from './Pages/Contact';
-import CourseList from './Pages/Course/CourseList';
-import NotFound from './Pages/NotFound';
-import HomePage from './Pages/Homepage';
-import Login from './Pages/Login';
-import Signup from './Pages/Signup';
-import Checkout from './Pages/Payment/Checkout';
-import CheckoutSuccess from './Pages/Payment/CheckoutSuccess';
-import CheckoutFail from './Pages/Payment/CheckoutFail';
-import ForgetPassword from './Pages/Password/ForgetPassword';
-import ResetPassword from './Pages/Password/ResetPassword';
-import AdminDashboard from './Pages/Dashboard/AdminDashboard';
-import CourseDescription from './Pages/Course/CourseDescription';
-import Profile from './Pages/User/Profile';
-import ChangePassword from './Pages/Password/ChangePassword';
-import EditProfile from './Pages/User/EditProfile';
-import CreateCourse from './Pages/Course/CreateCourse';
-import Lectures from './Pages/Dashboard/Lectures';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import About from "./Pages/About";
+import Contact from "./Pages/Contact";
+import CourseList from "./Pages/Course/CourseList";
+import NotFound from "./Pages/NotFound";
+import HomePage from "./Pages/Homepage";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
+import Checkout from "./Pages/Payment/Checkout";
+import CheckoutSuccess from "./Pages/Payment/CheckoutSuccess";
+import CheckoutFail from "./Pages/Payment/CheckoutFail";
+import ForgetPassword from "./Pages/Password/ForgetPassword";
+import ResetPassword from "./Pages/Password/ResetPassword";
+import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
+import CourseDescription from "./Pages/Course/CourseDescription";
+import Profile from "./Pages/User/Profile";
+import ChangePassword from "./Pages/Password/ChangePassword";
+import EditProfile from "./Pages/User/EditProfile";
+import CreateCourse from "./Pages/Course/CreateCourse";
+import AddLecture from "./Pages/Dashboard/AddLecture";
+import DisplayLectures from "./Pages/Dashboard/DisplayLectures";
 
 const App = () => {
   return (
@@ -38,10 +39,11 @@ const App = () => {
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
         <Route path="/changepassword" element={<ChangePassword />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/lectures" element={<Lectures />} />
         <Route path="/user/profile" element={<Profile />} />
         <Route path="/user/editprofile" element={<EditProfile />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/course/addlecture" element={<AddLecture />} />
+        <Route path="/course/displaylectures" element={<DisplayLectures />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

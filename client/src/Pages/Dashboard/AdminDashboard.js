@@ -115,7 +115,7 @@ const AdminDashboard = () => {
               {/* card for registered users */}
               <div className="flex items-center justify-between py-5 px-5 gap-5 rounded-md shadow-md">
                 <div className="flex flex-col items-center">
-                  <p className="font-semibold">Registered User</p>
+                  <p className="font-semibold">Registered Users</p>
                   <h3 className="text-4xl font-bold">250</h3>
                 </div>
                 <FaUsers className="text-yellow-500 text-5xl" />
@@ -124,7 +124,7 @@ const AdminDashboard = () => {
               {/* card for enrolled users */}
               <div className="flex items-center justify-between py-5 px-5 gap-5 rounded-md shadow-md">
                 <div className="flex flex-col items-center">
-                  <p className="font-semibold">Enrolled User</p>
+                  <p className="font-semibold">Subscribed Users</p>
                   <h3 className="text-4xl font-bold">50</h3>
                 </div>
                 <FaUsers className="text-green-500 text-5xl" />
@@ -144,7 +144,7 @@ const AdminDashboard = () => {
               {/* card for registered users */}
               <div className="flex items-center justify-between py-5 px-5 gap-5 rounded-md shadow-md">
                 <div className="flex flex-col items-center">
-                  <p className="font-semibold">Total Sales</p>
+                  <p className="font-semibold">Paid Subscriptions Count</p>
                   <h3 className="text-4xl font-bold">100</h3>
                 </div>
                 <FcSalesPerformance className="text-yellow-500 text-5xl" />
@@ -257,7 +257,9 @@ const AdminDashboard = () => {
                       {/* to CRUD the lectures */}
                       <button
                         onClick={() =>
-                          navigate("/admin/lectures", { state: { ...element } })
+                          navigate("/course/displaylectures", {
+                            state: { ...element },
+                          })
                         }
                         className="bg-green-500 hover:bg-green-600 transition-all ease-in-out duration-30 text-xl py-2 px-4 rounded-md font-bold"
                       >

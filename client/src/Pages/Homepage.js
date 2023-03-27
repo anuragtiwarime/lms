@@ -1,16 +1,12 @@
 import React from "react";
 import Layout from "../Layout/Layout";
 import homePageMainImage from "../Assets/Images/homePageMainImage.png";
-import HomePageCategory from "../Components/HomePageCategory";
 import { Link } from "react-router-dom";
 
-const homepage = () => {
-  // popular category arrayHome
-  const popularCategory = ["MdOutlineWeb", "MdDeveloperMode", "ImDatabase"];
-
+const Homepage = () => {
   return (
     <Layout>
-      <div className="pt-10 text-white flex items-center justify-center gap-10 mx-16">
+      <div className="pt-10 text-white flex items-center justify-center gap-10 mx-16 h-[90vh]">
         {/* for platform details */}
         <div className="w-1/2 space-y-6">
           <h1 className="text-5xl font-semibold">
@@ -25,12 +21,12 @@ const homepage = () => {
           {/* for buttons */}
           <div className="space-x-6">
             <Link to={"/courses"}>
-              <button className="bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
+              <button className="bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer hover:bg-yellow-600 transition-all ease-in-out duration-300">
                 Explore Courses
               </button>
             </Link>
             <Link to={"/contact"}>
-              <button className="border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer">
+              <button className="border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer hover:border-yellow-600 transition-all ease-in-out duration-300">
                 Contact Us
               </button>
             </Link>
@@ -42,23 +38,8 @@ const homepage = () => {
           <img src={homePageMainImage} alt="home page image" />
         </div>
       </div>
-
-      {/* creating the most popular courses category */}
-      <div className="ml-16 my-20">
-        <h1 className="text-center text-3xl font-semibold text-white">
-          Most Popular{" "}
-          <span className="text-yellow-500 font-bold">Category</span>{" "}
-        </h1>
-
-        {/* displaying the popular course cards */}
-        <div className="flex items-center justify-center gap-10 flex-wrap mt-16">
-          {popularCategory.map((element, index) => {
-            return <HomePageCategory iconName={element} key={index} />;
-          })}
-        </div>
-      </div>
     </Layout>
   );
 };
 
-export default homepage;
+export default Homepage;
