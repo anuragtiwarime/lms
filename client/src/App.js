@@ -29,6 +29,7 @@ const App = () => {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/courses" element={<CourseList />} />
 
         <Route element={<NotRequireAuth />}>
           <Route path="/login" element={<Login />} />
@@ -36,7 +37,6 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
-          <Route path="/courses" element={<CourseList />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route
             path="/reset-password/:resetToken"
@@ -44,21 +44,21 @@ const App = () => {
           />
         </Route>
 
-        <Route element={<RequireAuth allowedRoles={"USER"} />}>
+        <Route element={<RequireAuth allowedRoles={["USER", "ADMIN"]} />}>
           <Route path="/course/description" element={<CourseDescription />} />
-          <Route path="/course/create" element={<CreateCourse />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/checkout/fail" element={<CheckoutFail />} />
           <Route path="/changepassword" element={<ChangePassword />} />
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/editprofile" element={<EditProfile />} />
+          <Route path="/course/displaylectures" element={<DisplayLectures />} />
         </Route>
 
-        <Route element={<RequireAuth allowedRoles={"ADMIN"} />}>
+        <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/course/addlecture" element={<AddLecture />} />
-          <Route path="/course/displaylectures" element={<DisplayLectures />} />
+          <Route path="/course/create" element={<CreateCourse />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

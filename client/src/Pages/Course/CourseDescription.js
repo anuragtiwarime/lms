@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 
 const CourseDescription = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const { role, data } = useSelector((state) => state.auth);
 
   useEffect(() => {
     // scroll to the top on page render
@@ -43,13 +45,25 @@ const CourseDescription = () => {
               </div>
 
               {/* adding the subscribe button */}
-
-              <button
-                onClick={() => navigate("/checkout")}
-                className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300"
-              >
-                Subscribe to Course
-              </button>
+              {role === "ADMIN" || data?.subscription?.status === "active" ? (
+                <button
+                  onClick={() =>
+                    navigate("/course/displaylectures", {
+                      state: { ...state },
+                    })
+                  }
+                  className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300"
+                >
+                  Watch Lectures
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigate("/checkout")}
+                  className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300"
+                >
+                  Subscribe to Course
+                </button>
+              )}
             </div>
           </div>
 
