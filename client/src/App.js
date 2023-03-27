@@ -20,30 +20,44 @@ import EditProfile from "./Pages/User/EditProfile";
 import CreateCourse from "./Pages/Course/CreateCourse";
 import AddLecture from "./Pages/Dashboard/AddLecture";
 import DisplayLectures from "./Pages/Dashboard/DisplayLectures";
+import NotRequireAuth from "./Components/Auth/NotRequireAuth";
+import RequireAuth from "./Components/Auth/RequireAuth";
 
 const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/courses" element={<CourseList />} />
-        <Route path="/course/description" element={<CourseDescription />} />
-        <Route path="/course/create" element={<CreateCourse />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/checkout/success" element={<CheckoutSuccess />} />
-        <Route path="/checkout/fail" element={<CheckoutFail />} />
-        <Route path="/forgetpassword" element={<ForgetPassword />} />
-        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
-        <Route path="/changepassword" element={<ChangePassword />} />
-        <Route path="/user/profile" element={<Profile />} />
-        <Route path="/user/editprofile" element={<EditProfile />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/course/addlecture" element={<AddLecture />} />
-        <Route path="/course/displaylectures" element={<DisplayLectures />} />
+        <Route element={<NotRequireAuth />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/courses" element={<CourseList />} />
+          <Route path="/forgetpassword" element={<ForgetPassword />} />
+          <Route
+            path="/reset-password/:resetToken"
+            element={<ResetPassword />}
+          />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={"USER"} />}>
+          <Route path="/course/description" element={<CourseDescription />} />
+          <Route path="/course/create" element={<CreateCourse />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout/success" element={<CheckoutSuccess />} />
+          <Route path="/checkout/fail" element={<CheckoutFail />} />
+          <Route path="/changepassword" element={<ChangePassword />} />
+          <Route path="/user/profile" element={<Profile />} />
+          <Route path="/user/editprofile" element={<EditProfile />} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={"ADMIN"} />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/course/addlecture" element={<AddLecture />} />
+          <Route path="/course/displaylectures" element={<DisplayLectures />} />
+        </Route>
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
