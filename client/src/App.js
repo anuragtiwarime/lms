@@ -32,16 +32,13 @@ const App = () => {
         <Route path="/courses" element={<CourseList />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
+        <Route path="/denied" element={<Denied />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
 
         <Route element={<NotRequireAuth />}>
           <Route path="/login" element={<Login />} />
-          <Route path="/denied" element={<Denied />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/forgetpassword" element={<ForgetPassword />} />
-          <Route
-            path="/reset-password/:resetToken"
-            element={<ResetPassword />}
-          />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={["USER", "ADMIN"]} />}>

@@ -50,14 +50,22 @@ const Profile = () => {
           {/* button to change the password */}
           <div className="flex items-center justify-between gap-2">
             <Link
-              to={"/changepassword"}
+              to={
+                userData?.email === "test@gmail.com"
+                  ? "/denied"
+                  : "/changepassword"
+              }
               className="w-1/2 bg-yellow-600 hover:bg-yellow-700 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold cursor-pointer text-center"
             >
               <button>Change Password</button>
             </Link>
 
             <Link
-              to={"/user/editprofile"}
+              to={
+                userData?.email === "test@gmail.com"
+                  ? "/denied"
+                  : "/user/editprofile"
+              }
               className="w-1/2 border border-yellow-600 hover:border-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold cursor-pointer text-center"
             >
               <button>Edit Profile</button>
