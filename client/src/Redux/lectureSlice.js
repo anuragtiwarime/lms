@@ -71,10 +71,8 @@ export const deleteCourseLecture = createAsyncThunk(
       });
 
       const response = await res;
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.message);
     }
   }

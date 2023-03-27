@@ -9,6 +9,7 @@ import {
 
 const DisplayLectures = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // for getting the data from location of previous component
   const courseDetails = useLocation().state;
@@ -68,8 +69,20 @@ const DisplayLectures = () => {
 
           {/* right section for displaying all the lectures of the course */}
           <ul className="overflow-y-scroll w-[28rem] p-2 rounded-lg shadow-[0_0_10px_black] space-y-4">
-            <li className="text-center font-semibold text-xl text-yellow-500">
-              Lectures List
+            <li className="font-semibold text-xl text-yellow-500 flex items-center justify-between">
+              <p>Lectures List</p>
+              {role === "ADMIN" && (
+                <button
+                  onClick={() =>
+                    navigate("/course/addlecture", {
+                      state: { ...courseDetails },
+                    })
+                  }
+                  className="btn-primary px-2 py-1 rounded-md font-semibold text-sm"
+                >
+                  Add New Lecture
+                </button>
+              )}
             </li>
             {lectures &&
               lectures.map((element, index) => {
