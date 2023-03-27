@@ -189,7 +189,7 @@ export const getRazorpayApiKey = asyncHandler(async (_req, res, _next) => {
 /**
  * @GET_RAZORPAY_ID
  * @ROUTE @GET {{URL}}/api/v1/payments
- * @ACCESS Piovate
+ * @ACCESS Private (ADMIN only)
  */
 export const allPayments = asyncHandler(async (req, res, _next) => {
   const { count, skip } = req.query;
