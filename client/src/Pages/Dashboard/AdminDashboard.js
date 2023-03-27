@@ -89,11 +89,13 @@ const AdminDashboard = () => {
 
   // function to handle the course delete
   const handleCourseDelete = async (id) => {
-    const res = await dispatch(deleteCourse(id));
+    if (window.confirm("Are you sure you want to delete the course?")) {
+      const res = await dispatch(deleteCourse(id));
 
-    // fetching the new updated data for the course
-    if (res.payload.success) {
-      await dispatch(getAllCourses());
+      // fetching the new updated data for the course
+      if (res.payload.success) {
+        await dispatch(getAllCourses());
+      }
     }
   };
 

@@ -51,7 +51,6 @@ const EditProfile = () => {
     // checking for the empty field
     if (!data.fullName || !data.avatar) {
       toast.error("All fields are mandatory");
-
       return;
     }
 
@@ -72,7 +71,7 @@ const EditProfile = () => {
     await dispatch(updateProfile(newUserData));
 
     // fetching the data to update
-    dispatch(getUserData());
+    await dispatch(getUserData());
   };
 
   return (
