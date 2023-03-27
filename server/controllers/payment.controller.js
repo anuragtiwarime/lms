@@ -194,9 +194,10 @@ export const getRazorpayApiKey = asyncHandler(async (_req, res, _next) => {
 export const allPayments = asyncHandler(async (req, res, _next) => {
   const { count, skip } = req.query;
 
+  // Find all subscriptions from razorpay
   const allPayments = await razorpay.subscriptions.all({
-    count: count ? count : 10,
-    skip: skip ? skip : 0,
+    count: count ? count : 10, // If count is sent then use that else default to 10
+    skip: skip ? skip : 0, // // If skip is sent then use that else default to 0
   });
 
   const monthNames = [
@@ -230,6 +231,7 @@ export const allPayments = asyncHandler(async (req, res, _next) => {
   };
 
   const monthlyWisePayments = allPayments.items.map((payment) => {
+    // We are using payment.start_at which is in unix time, so we are converting it to Human readable format using Date()
     const monthsInNumbers = new Date(payment.start_at * 1000);
 
     return monthNames[monthsInNumbers.getMonth()];
