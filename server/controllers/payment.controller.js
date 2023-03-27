@@ -245,10 +245,17 @@ export const allPayments = asyncHandler(async (req, res, _next) => {
     });
   });
 
+  const monthlySalesRecord = [];
+
+  Object.keys(finalMonths).forEach((monthName) => {
+    monthlySalesRecord.push(finalMonths[monthName]);
+  });
+
   res.status(200).json({
     success: true,
     message: 'All payments',
     allPayments,
     finalMonths,
+    monthlySalesRecord,
   });
 });
