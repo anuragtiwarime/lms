@@ -6,6 +6,9 @@ const initialState = {
   key: "",
   subscription_id: "",
   isPaymentVerified: false,
+  allPayments: {},
+  finalMonths: {},
+  monthlySalesRecord: [],
 };
 
 // function to get the api key
@@ -13,7 +16,9 @@ export const getRazorPayId = createAsyncThunk("/razorPayId/get", async () => {
   try {
     const res = await axiosInstance.get("/payments/razorpay-key");
     return res.data;
-  } catch (error) {}
+  } catch (error) {
+    toast.error("Failed to load data");
+  }
 });
 
 // function to purchase the course bundle
@@ -46,6 +51,25 @@ export const verifyUserPayment = createAsyncThunk(
   }
 );
 
+// function to get all the payment record
+export const getPaymentRecord = createAsyncThunk("paymentrecord", async () => {
+  try {
+    const res = axiosInstance.get("/payments?count=100");
+    toast.promise(res, {
+      loading: "Getting the payments record...",
+      success: (data) => {
+        return data?.data?.message;
+      },
+      error: "Failed to get payment records",
+    });
+
+    const response = await res;
+    return response.data;
+  } catch (error) {
+    toast.error("Operation failed");
+  }
+});
+
 const razorpaySlice = createSlice({
   name: "razorpay",
   initialState,
@@ -68,6 +92,11 @@ const razorpaySlice = createSlice({
       .addCase(verifyUserPayment.rejected, (state, action) => {
         toast.error(action?.payload?.message);
         state.isPaymentVerified = action?.payload?.success;
+      })
+      .addCase(getPaymentRecord.fulfilled, (state, action) => {
+        state.allPayments = action?.payload?.allPayments;
+        state.finalMonths = action?.payload?.finalMonths;
+        state.monthlySalesRecord = action?.payload?.monthlySalesRecord;
       });
   },
 });

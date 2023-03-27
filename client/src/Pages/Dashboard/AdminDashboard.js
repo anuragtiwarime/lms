@@ -20,6 +20,8 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCourse, getAllCourses } from "../../Redux/courseSlice";
+import { getStatsData } from "../../Redux/statSlice";
+import { getPaymentRecord } from "../../Redux/razorpaySlice";
 
 ChartJS.register(
   ArcElement,
@@ -35,12 +37,19 @@ const AdminDashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { allUsersCount, subscribedUsersCount } = useSelector(
+    (state) => state.stat
+  );
+  const { allPayments, finalMonths, monthlySalesRecord } = useSelector(
+    (state) => state.razorpay
+  );
+
   const userData = {
     labels: ["Registered User", "Enrolled User"],
     datasets: [
       {
         label: "User Details",
-        data: [25, 15],
+        data: [allUsersCount, subscribedUsersCount],
         backgroundColor: ["yellow", "green"],
         borderColor: ["yellow", "green"],
         borderWidth: 1,
@@ -67,7 +76,7 @@ const AdminDashboard = () => {
     datasets: [
       {
         label: "Sales / Month",
-        data: [25, 15],
+        data: monthlySalesRecord,
         backgroundColor: ["rgb(255, 99, 132)"],
         borderColor: ["white"],
         borderWidth: 2,
@@ -91,6 +100,8 @@ const AdminDashboard = () => {
   useEffect(() => {
     (async () => {
       await dispatch(getAllCourses());
+      await dispatch(getStatsData());
+      await dispatch(getPaymentRecord());
     })();
   }, []);
 
@@ -111,12 +122,12 @@ const AdminDashboard = () => {
             </div>
 
             {/* card for user data */}
-            <div className="grid grid-cols-2 gap-10">
+            <div className="grid grid-cols-2 gap-5">
               {/* card for registered users */}
               <div className="flex items-center justify-between py-5 px-5 gap-5 rounded-md shadow-md">
                 <div className="flex flex-col items-center">
                   <p className="font-semibold">Registered Users</p>
-                  <h3 className="text-4xl font-bold">250</h3>
+                  <h3 className="text-4xl font-bold">{allUsersCount}</h3>
                 </div>
                 <FaUsers className="text-yellow-500 text-5xl" />
               </div>
@@ -125,7 +136,7 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between py-5 px-5 gap-5 rounded-md shadow-md">
                 <div className="flex flex-col items-center">
                   <p className="font-semibold">Subscribed Users</p>
-                  <h3 className="text-4xl font-bold">50</h3>
+                  <h3 className="text-4xl font-bold">{subscribedUsersCount}</h3>
                 </div>
                 <FaUsers className="text-green-500 text-5xl" />
               </div>
@@ -140,12 +151,12 @@ const AdminDashboard = () => {
             </div>
 
             {/* card for user data */}
-            <div className="grid grid-cols-2 gap-10">
+            <div className="grid grid-cols-2 gap-5">
               {/* card for registered users */}
               <div className="flex items-center justify-between py-5 px-5 gap-5 rounded-md shadow-md">
                 <div className="flex flex-col items-center">
-                  <p className="font-semibold">Paid Subscriptions Count</p>
-                  <h3 className="text-4xl font-bold">100</h3>
+                  <p className="font-semibold">Subscriptions Count</p>
+                  <h3 className="text-4xl font-bold">{allPayments?.count}</h3>
                 </div>
                 <FcSalesPerformance className="text-yellow-500 text-5xl" />
               </div>
@@ -154,7 +165,9 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between py-5 px-5 gap-5 rounded-md shadow-md">
                 <div className="flex flex-col items-center">
                   <p className="font-semibold">Total Revenue</p>
-                  <h3 className="text-4xl font-bold">49900</h3>
+                  <h3 className="text-4xl font-bold">
+                    {allPayments?.count * 499}
+                  </h3>
                 </div>
                 <GiMoneyStack className="text-green-500 text-5xl" />
               </div>
