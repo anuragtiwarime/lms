@@ -16,11 +16,6 @@ export const getAllCourses = asyncHandler(async (_req, res, next) => {
   // Find all the courses without lectures
   const courses = await Course.find({}).select('-lectures');
 
-  // If no courses send the same
-  if (!courses.length) {
-    return next(new AppError('No course found', 404));
-  }
-
   res.status(200).json({
     success: true,
     message: 'All courses',
@@ -106,7 +101,7 @@ export const getLecturesByCourseId = asyncHandler(async (req, res, next) => {
   const course = await Course.findById(id);
 
   if (!course) {
-    return next(new AppError('Invalid course id or course not found.', 400));
+    return next(new AppError('Invalid course id or course not found.', 404));
   }
 
   res.status(200).json({
@@ -208,7 +203,7 @@ export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
 
   // If no course send custom message
   if (!course) {
-    return next(new AppError('Invalid ID or Course does not exist.', 400));
+    return next(new AppError('Invalid ID or Course does not exist.', 404));
   }
 
   // Find the index of the lecture using the lectureId
@@ -218,7 +213,7 @@ export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
 
   // If returned index is -1 then send error as mentioned below
   if (lectureIndex === -1) {
-    return next(new AppError('Invalid ID or lecture does not exist.', 400));
+    return next(new AppError('Lecture does not exist.', 404));
   }
 
   // Delete the lecture from cloudinary

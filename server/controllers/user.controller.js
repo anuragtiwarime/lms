@@ -62,7 +62,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
         folder: 'lms', // Save files in a folder named lms
         width: 250,
         height: 250,
-        gravity: 'faces',
+        gravity: 'faces', // This option tells cloudinary to center the image around detected faces (if any) after cropping or resizing the original image
         crop: 'fill',
       });
 
@@ -75,15 +75,15 @@ export const registerUser = asyncHandler(async (req, res, next) => {
         // After successful upload remove the file from local storage
         fs.rm(`uploads/${req.file.filename}`);
       }
-
-      // Save the user object
-      await user.save();
     } catch (error) {
       return next(
         new AppError(error || 'File not uploaded, please try again', 400)
       );
     }
   }
+
+  // Save the user object
+  await user.save();
 
   // Generating a JWT token
   const token = await user.generateJWTToken();
@@ -122,10 +122,7 @@ export const loginUser = asyncHandler(async (req, res, next) => {
   // If no user or sent password do not match then send generic response
   if (!(user && (await user.comparePassword(password)))) {
     return next(
-      new AppError(
-        'Email and Password do not match or user does not exist',
-        404
-      )
+      new AppError('Email or Password do not match or user does not exist', 401)
     );
   }
 
@@ -201,7 +198,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
 
   // If no email found send the message email not found
   if (!user) {
-    return next(new AppError('Email not registered', 404));
+    return next(new AppError('Email not registered', 400));
   }
 
   // Generating the reset token via the method we have in user model
@@ -243,7 +240,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
     return next(
       new AppError(
         error.message || 'Something went wrong, please try again.',
-        400
+        500
       )
     );
   }
@@ -382,7 +379,7 @@ export const updateUser = asyncHandler(async (req, res, next) => {
         folder: 'lms', // Save files in a folder named lms
         width: 250,
         height: 250,
-        gravity: 'faces',
+        gravity: 'faces', // This option tells cloudinary to center the image around detected faces (if any) after cropping or resizing the original image
         crop: 'fill',
       });
 
