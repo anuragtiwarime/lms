@@ -1,4 +1,4 @@
-class AppErr extends Error {
+class AppError extends Error {
   constructor(message, statusCode) {
     super(message);
 
@@ -8,4 +8,4 @@ class AppErr extends Error {
   }
 }
 
-export default AppErr;
+export default AppError;

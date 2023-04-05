@@ -5,7 +5,7 @@ import cloudinary from 'cloudinary';
 
 import asyncHandler from '../middlewares/asyncHandler.middleware.js';
 import Course from '../models/course.model.js';
-import AppErr from '../utils/appErr.js';
+import AppError from '../utils/AppError.js';
 
 /**
  * @ALL_COURSES
@@ -18,7 +18,7 @@ export const getAllCourses = asyncHandler(async (_req, res, next) => {
 
   // If no courses send the same
   if (!courses.length) {
-    return next(new AppErr('No course found', 404));
+    return next(new AppError('No course found', 404));
   }
 
   res.status(200).json({
@@ -37,7 +37,7 @@ export const createCourse = asyncHandler(async (req, res, next) => {
   const { title, description, category, createdBy } = req.body;
 
   if (!title || !description || !category || !createdBy) {
-    return next(new AppErr('All fields are required', 400));
+    return next(new AppError('All fields are required', 400));
   }
 
   const course = await Course.create({
@@ -49,7 +49,7 @@ export const createCourse = asyncHandler(async (req, res, next) => {
 
   if (!course) {
     return next(
-      new AppErr('Course could not be created, please try again', 400)
+      new AppError('Course could not be created, please try again', 400)
     );
   }
 
@@ -77,7 +77,7 @@ export const createCourse = asyncHandler(async (req, res, next) => {
 
       // Send the error message
       return next(
-        new AppErr(
+        new AppError(
           JSON.stringify(error) || 'File not uploaded, please try again',
           400
         )
@@ -106,7 +106,7 @@ export const getLecturesByCourseId = asyncHandler(async (req, res, next) => {
   const course = await Course.findById(id);
 
   if (!course) {
-    return next(new AppErr('Invalid course id or course not found.', 400));
+    return next(new AppError('Invalid course id or course not found.', 400));
   }
 
   res.status(200).json({
@@ -128,13 +128,13 @@ export const addLectureToCourseById = asyncHandler(async (req, res, next) => {
   let lectureData = {};
 
   if (!title || !description) {
-    return next(new AppErr('Title and Description are required', 400));
+    return next(new AppError('Title and Description are required', 400));
   }
 
   const course = await Course.findById(id);
 
   if (!course) {
-    return next(new AppErr('Invalid course id or course not found.', 400));
+    return next(new AppError('Invalid course id or course not found.', 400));
   }
 
   // Run only if user sends a file
@@ -163,7 +163,7 @@ export const addLectureToCourseById = asyncHandler(async (req, res, next) => {
 
       // Send the error message
       return next(
-        new AppErr(
+        new AppError(
           JSON.stringify(error) || 'File not uploaded, please try again',
           400
         )
@@ -200,7 +200,7 @@ export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
 
   // Checking if both courseId and lectureId are present
   if (!courseId || !lectureId) {
-    return next(new AppErr('Course ID and Lecture ID are required', 400));
+    return next(new AppError('Course ID and Lecture ID are required', 400));
   }
 
   // Find the course uding the courseId
@@ -208,7 +208,7 @@ export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
 
   // If no course send custom message
   if (!course) {
-    return next(new AppErr('Invalid ID or Course does not exist.', 400));
+    return next(new AppError('Invalid ID or Course does not exist.', 400));
   }
 
   // Find the index of the lecture using the lectureId
@@ -218,7 +218,7 @@ export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
 
   // If returned index is -1 then send error as mentioned below
   if (lectureIndex === -1) {
-    return next(new AppErr('Invalid ID or lecture does not exist.', 400));
+    return next(new AppError('Invalid ID or lecture does not exist.', 400));
   }
 
   // Delete the lecture from cloudinary
@@ -267,7 +267,7 @@ export const updateCourseById = asyncHandler(async (req, res, next) => {
 
   // If no course found then send the response for the same
   if (!course) {
-    return next(new AppErr('Invalid course id or course not found.', 400));
+    return next(new AppError('Invalid course id or course not found.', 400));
   }
 
   // Sending the response after success
@@ -291,7 +291,7 @@ export const deleteCourseById = asyncHandler(async (req, res, next) => {
 
   // If course not find send the message as stated below
   if (!course) {
-    return next(new AppErr('Course with given id does not exist.', 404));
+    return next(new AppError('Course with given id does not exist.', 404));
   }
 
   // Remove course
