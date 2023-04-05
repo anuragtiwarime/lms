@@ -29,15 +29,6 @@ const userSchema = new Schema(
       minlength: [8, 'Password must be at least 8 characters'],
       select: false, // Will not select password upon looking up a document
     },
-    courses: [
-      {
-        course: {
-          type: Schema.Types.ObjectId,
-          ref: 'Course',
-        },
-        thumbnail: String,
-      },
-    ],
     subscription: {
       id: String,
       status: String,
@@ -66,7 +57,7 @@ const userSchema = new Schema(
 // Hashes password before saving to the database
 userSchema.pre('save', async function (next) {
   // If password is not modified then do not hash it
-  if (!this.isModified('password')) return next;
+  if (!this.isModified('password')) return next();
 
   this.password = await bcrypt.hash(this.password, 10);
 });

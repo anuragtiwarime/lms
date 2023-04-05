@@ -291,7 +291,7 @@ export const deleteCourseById = asyncHandler(async (req, res, next) => {
 
   // If course not find send the message as stated below
   if (!course) {
-    return next(new AppErr('Invalid course id or course not found.', 400));
+    return next(new AppErr('Course with given id does not exist.', 404));
   }
 
   // Remove course
