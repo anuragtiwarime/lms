@@ -186,16 +186,20 @@ export const addLectureToCourseById = asyncHandler(async (req, res, next) => {
 
 /**
  * @Remove_LECTURE
- * @ROUTE @DELETE {{URL}}/api/v1/courses/:id
+ * @ROUTE @DELETE {{URL}}/api/v1/courses/:courseId/lectures/:lectureId
  * @ACCESS Private (Admin only)
  */
 export const removeLectureFromCourse = asyncHandler(async (req, res, next) => {
   // Grabbing the courseId and lectureId from req.query
-  const { courseId, lectureId } = req.query;
+  const { courseId, lectureId } = req.params;
 
   // Checking if both courseId and lectureId are present
-  if (!courseId || !lectureId) {
-    return next(new AppError('Course ID and Lecture ID are required', 400));
+  if (!courseId) {
+    return next(new AppError('Course ID is required', 400));
+  }
+
+  if (!lectureId) {
+    return next(new AppError('Lecture ID is required', 400));
   }
 
   // Find the course uding the courseId
