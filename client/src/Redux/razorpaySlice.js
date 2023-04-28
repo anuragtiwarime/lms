@@ -70,7 +70,7 @@ export const getPaymentRecord = createAsyncThunk("paymentrecord", async () => {
   }
 });
 
-// function to purchase the course bundle
+// function to cancel the course bundle subscription
 export const cancelCourseBundle = createAsyncThunk(
   "/cancelCourse",
   async () => {

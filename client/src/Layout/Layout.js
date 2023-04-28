@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
   const handleLogout = async (event) => {
     event.preventDefault();
 
-    // calling login action
+    // calling logout action
     const res = await dispatch(logout());
 
     // redirect to home page if true

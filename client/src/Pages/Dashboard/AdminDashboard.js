@@ -9,7 +9,6 @@ import {
   LinearScale,
   BarElement,
   Title,
-  plugins,
 } from "chart.js";
 import { Pie, Bar } from "react-chartjs-2";
 import { FaUsers } from "react-icons/fa";
