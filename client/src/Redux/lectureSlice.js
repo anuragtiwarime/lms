@@ -20,7 +20,6 @@ export const getCourseLecture = createAsyncThunk(
       });
 
       const response = await res;
-
       return response.data;
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -57,7 +56,7 @@ export const addCourseLecture = createAsyncThunk(
 
 // function to delete the lecture from the course
 export const deleteCourseLecture = createAsyncThunk(
-  "/course/lecture/add",
+  "/course/lecture/delete",
   async (data) => {
     try {
       const res = axiosInstance.delete(
@@ -85,7 +84,7 @@ const lectureSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getCourseLecture.fulfilled, (state, action) => {
-        state.lectures = action.payload.lectures;
+        state.lectures = action?.payload?.lectures;
       })
       .addCase(addCourseLecture.fulfilled, (state, action) => {
         state.lectures = action?.payload?.course?.lectures;
