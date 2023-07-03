@@ -34,7 +34,7 @@ const DisplayLectures = () => {
   }, []);
   return (
     <Layout>
-      <div className="flex flex-col gap-10 items-center justify-center h-[90vh] text-white mx-[5%]">
+      <div className="flex flex-col gap-10 items-center justify-center min-h-[90vh] py-10 text-white mx-[5%]">
         {/* displaying the course name */}
 
         <h1 className="text-center text-2xl font-semibold text-yellow-500">
@@ -68,7 +68,7 @@ const DisplayLectures = () => {
           </div>
 
           {/* right section for displaying all the lectures of the course */}
-          <ul className="overflow-y-scroll w-[28rem] p-2 rounded-lg shadow-[0_0_10px_black] space-y-4">
+          <ul className="w-[28rem] p-2 rounded-lg shadow-[0_0_10px_black] space-y-4">
             <li className="font-semibold text-xl text-yellow-500 flex items-center justify-between">
               <p>Lectures List</p>
               {role === "ADMIN" && (

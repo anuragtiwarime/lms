@@ -58,6 +58,7 @@ export const addCourseLecture = createAsyncThunk(
 export const deleteCourseLecture = createAsyncThunk(
   "/course/lecture/delete",
   async (data) => {
+    console.log(data);
     try {
       const res = axiosInstance.delete(
         `/courses/?courseId=${data.courseId}&lectureId=${data.lectureId}`
